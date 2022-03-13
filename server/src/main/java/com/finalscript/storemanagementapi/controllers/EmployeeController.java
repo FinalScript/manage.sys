@@ -20,21 +20,23 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployees() {
+    public List<Employee> getEmployees(@PathVariable Long storeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return employeeService.getEmployees(Long.valueOf(authentication.getPrincipal().toString()));
+        return employeeService.getEmployees(storeId);
     }
-    @GetMapping(path = "{employeeId}")
-    public Employee getEmployee(@PathVariable Long employeeId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return employeeService.getEmployee(Long.valueOf(authentication.getPrincipal().toString()), employeeId);
 
+    @GetMapping(path = "{employeeId}")
+    public Employee getEmployee(@PathVariable Long employeeId, @PathVariable Long storeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return employeeService.getEmployee(storeId, employeeId);
     }
 
     @PostMapping
-    public Employee newEmployee(@RequestParam String password) {
+    public Employee newEmployee(@RequestParam String password, @PathVariable Long storeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return employeeService.newEmployee(Long.valueOf(authentication.getPrincipal().toString()), password);
+
+        return employeeService.newEmployee(storeId, password);
     }
 }
