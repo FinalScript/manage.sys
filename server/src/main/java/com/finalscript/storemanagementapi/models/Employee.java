@@ -9,6 +9,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.sql.Date;
 
+/**
+ *
+ */
 @Entity
 @Table(name = "employee")
 public class Employee {
