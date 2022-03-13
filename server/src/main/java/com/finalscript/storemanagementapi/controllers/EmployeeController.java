@@ -1,9 +1,13 @@
 package com.finalscript.storemanagementapi.controllers;
 
+import com.finalscript.storemanagementapi.models.Employee;
 import com.finalscript.storemanagementapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/store/{storeId}/employee")
@@ -15,15 +19,22 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    public void getEmployees() {
-        // TODO
+    @GetMapping
+    public List<Employee> getEmployees() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return employeeService.getEmployees(Long.valueOf(authentication.getPrincipal().toString()));
+    }
+    @GetMapping(path = "{employeeId}")
+    public Employee getEmployee(@PathVariable Long employeeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return employeeService.getEmployee(Long.valueOf(authentication.getPrincipal().toString()), employeeId);
+
     }
 
-    public void getEmployee() {
-        // TODO
-    }
-
-    public void newEmployee() {
-        // TODO
+    @PostMapping
+    public void newEmployee(@RequestParam String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return employeeService.newEmployee(Long.valueOf(authentication.getPrincipal().toString()), password);
     }
 }
