@@ -33,7 +33,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void newEmployee(@RequestParam String password) {
+    public Employee newEmployee(@RequestParam String password) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return employeeService.newEmployee(Long.valueOf(authentication.getPrincipal().toString()), password);
     }
