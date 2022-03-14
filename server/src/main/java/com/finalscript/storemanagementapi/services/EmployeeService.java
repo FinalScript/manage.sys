@@ -39,7 +39,7 @@ public class EmployeeService {
     public Employee getEmployee(Long storeId, Long employeeId) {
         Optional<Employee> employeeOptional = Optional.ofNullable(employeeRepository.findEmployeeByStore_IdAndId(storeId, employeeId));
 
-        if(employeeOptional.isEmpty()) {
+        if (employeeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee with ID #" + employeeId + " does not exist at store with ID #" + storeId);
         }
 
@@ -49,10 +49,12 @@ public class EmployeeService {
     public Employee newEmployee(Long storeId, String password) {
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
-        if(storeOptional.isEmpty()){
+        // Checks if the there is an existing store with the given store ID
+        if (storeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
         }
 
+        // Checks if the provided password is of a valid range
         if (password.length() < 6) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long");
         }
@@ -61,8 +63,11 @@ public class EmployeeService {
 
         Employee employee = new Employee();
         employee.setPassword(encoder.encode(password));
+        employee.setStore(storeOptional.get());
 
+        System.out.println(employee);
         return employeeRepository.save(employee);
+
 
     }
 }

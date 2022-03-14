@@ -3,8 +3,6 @@ package com.finalscript.storemanagementapi.controllers;
 import com.finalscript.storemanagementapi.models.Employee;
 import com.finalscript.storemanagementapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,21 +18,21 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployees() {
+    public List<Employee> getEmployees(@PathVariable Long storeId) {
 
 
-        return employeeService.getEmployees(Long.valueOf(toString()));
+        return employeeService.getEmployees(storeId);
     }
     @GetMapping(path = "{employeeId}")
-    public Employee getEmployee(@PathVariable Long employeeId) {
+    public Employee getEmployee(@PathVariable Long employeeId, @PathVariable Long storeId) {
 
-        return employeeService.getEmployee(Long.valueOf(toString()), employeeId);
-
+        return employeeService.getEmployee(storeId, employeeId);
     }
 
     @PostMapping
-    public Employee newEmployee(@RequestParam String password) {
+    public Employee newEmployee(@RequestParam String password, @PathVariable Long storeId) {
 
-        return employeeService.newEmployee(Long.valueOf(toString()), password);
+
+        return employeeService.newEmployee(storeId, password);
     }
 }
