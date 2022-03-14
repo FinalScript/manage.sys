@@ -19,20 +19,16 @@ public class EmployeeController {
 
     @GetMapping
     public List<Employee> getEmployees(@PathVariable Long storeId) {
-
-
         return employeeService.getEmployees(storeId);
     }
+
     @GetMapping(path = "{employeeId}")
     public Employee getEmployee(@PathVariable Long employeeId, @PathVariable Long storeId) {
-
         return employeeService.getEmployee(storeId, employeeId);
     }
 
     @PostMapping
     public Employee newEmployee(@RequestParam String password, @PathVariable Long storeId) {
-
-
         return employeeService.newEmployee(storeId, password);
     }
 }

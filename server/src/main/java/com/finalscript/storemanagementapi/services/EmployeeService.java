@@ -2,7 +2,6 @@ package com.finalscript.storemanagementapi.services;
 
 import com.finalscript.storemanagementapi.models.Employee;
 import com.finalscript.storemanagementapi.models.Store;
-import com.finalscript.storemanagementapi.repositories.AdminUserRepository;
 import com.finalscript.storemanagementapi.repositories.EmployeeRepository;
 import com.finalscript.storemanagementapi.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class EmployeeService {
     private final StoreRepository storeRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, AdminUserRepository adminUserRepository,
+    public EmployeeService(EmployeeRepository employeeRepository,
                            StoreRepository storeRepository) {
         this.employeeRepository = employeeRepository;
         this.storeRepository = storeRepository;
@@ -67,7 +66,5 @@ public class EmployeeService {
 
         System.out.println(employee);
         return employeeRepository.save(employee);
-
-
     }
 }
