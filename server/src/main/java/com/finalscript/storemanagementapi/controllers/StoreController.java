@@ -3,10 +3,9 @@ package com.finalscript.storemanagementapi.controllers;
 import com.finalscript.storemanagementapi.models.Store;
 import com.finalscript.storemanagementapi.services.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -20,23 +19,17 @@ public class StoreController {
     }
 
     @GetMapping
-    public List<Store> getStores() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return storeService.getStores(Long.valueOf(authentication.getPrincipal().toString()));
+    public List<Store> getStores(HttpServletRequest httpServletRequest) {
+        return storeService.getStores((Long) httpServletRequest.getAttribute("adminId"));
     }
 
     @GetMapping(path = "{storeId}")
-    public Store getStore(@PathVariable Long storeId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return storeService.getStore(Long.valueOf(authentication.getPrincipal().toString()), storeId);
+    public Store getStore(@PathVariable Long storeId, HttpServletRequest httpServletRequest) {
+        return storeService.getStore((Long) httpServletRequest.getAttribute("adminId"), storeId);
     }
 
     @PostMapping
-    public Store newStore(@RequestParam String storeName) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return storeService.newStore(Long.valueOf(authentication.getPrincipal().toString()), storeName);
+    public Store newStore(@RequestParam String storeName, HttpServletRequest httpServletRequest) {
+        return storeService.newStore((Long) httpServletRequest.getAttribute("adminId"), storeName);
     }
 }
