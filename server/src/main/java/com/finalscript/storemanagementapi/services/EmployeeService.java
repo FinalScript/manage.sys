@@ -13,11 +13,18 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Handles the Employee Services
+ */
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final StoreRepository storeRepository;
 
+    /**
+     * @param employeeRepository Employee Repository object
+     * @param storeRepository Store Repository object
+     */
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository,
                            StoreRepository storeRepository) {
@@ -25,6 +32,10 @@ public class EmployeeService {
         this.storeRepository = storeRepository;
     }
 
+    /**
+     * @param storeId Value of sent in store ID
+     * @return List of employees at a given store
+     */
     public List<Employee> getEmployees(Long storeId) {
         List<Employee> employeeList = employeeRepository.findEmployeesByStore_Id(storeId);
 
@@ -35,6 +46,11 @@ public class EmployeeService {
         return employeeList;
     }
 
+    /**
+     * @param storeId Value of sent in store ID
+     * @param employeeId Value of sent in employee ID
+     * @return Employee at a given store with the given ID
+     */
     public Employee getEmployee(Long storeId, Long employeeId) {
         Optional<Employee> employeeOptional = Optional.ofNullable(employeeRepository.findEmployeeByStore_IdAndId(storeId, employeeId));
 
@@ -45,6 +61,11 @@ public class EmployeeService {
         return employeeOptional.get();
     }
 
+    /**
+     * @param storeId Value of sent in store ID
+     * @param password Value of employee password
+     * @return A new employee filled with the given parameters
+     */
     public Employee newEmployee(Long storeId, String password) {
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
@@ -64,7 +85,6 @@ public class EmployeeService {
         employee.setPassword(encoder.encode(password));
         employee.setStore(storeOptional.get());
 
-        System.out.println(employee);
         return employeeRepository.save(employee);
     }
 }

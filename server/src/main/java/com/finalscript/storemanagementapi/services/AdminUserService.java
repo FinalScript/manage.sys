@@ -11,15 +11,25 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+/**
+ * Handles the AdminUser Services
+ */
 @Service
 public class AdminUserService {
     private final AdminUserRepository adminUserRepository;
 
+    /**
+     * @param adminUserRepository Admin User Repository object
+     */
     @Autowired
     public AdminUserService(AdminUserRepository adminUserRepository) {
         this.adminUserRepository = adminUserRepository;
     }
 
+    /**
+     * @param id Value of sent in admin ID
+     * @return Retrieved admin at the given ID
+     */
     public AdminUser getAdmin(Long id) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
 
@@ -30,6 +40,10 @@ public class AdminUserService {
         return userOptional.get();
     }
 
+    /**
+     * @param newUser New AdminUser object
+     * @return A new registered admin user
+     */
     public AdminUser register(AdminUser newUser) {
         Optional<AdminUser> userOptional = adminUserRepository.findAdminUserByUsername(newUser.getUsername());
 
@@ -52,6 +66,10 @@ public class AdminUserService {
         return savedUser;
     }
 
+    /**
+     * @param user Existing AdminUser object
+     * @return The Logged in admin user
+     */
     public AdminUser login(AdminUser user) {
         Optional<AdminUser> userOptional = adminUserRepository.findAdminUserByUsername(user.getUsername());
 
@@ -69,5 +87,4 @@ public class AdminUserService {
 
         return userOptional.get();
     }
-
 }
