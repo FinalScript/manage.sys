@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { register, login } from '../api/index';
 
 export const Auth = () => {
     const [isRegistering, setIsRegistering] = useState(true);
     const [form, setForm] = useState({ username: '', password: '', confirmPassword: '' });
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (form.password !== form.confirmPassword) {
+            setError('Passwords do not match');
+        } else {
+            setError('');
+        }
+    }, [form.password, form.confirmPassword]);
 
     const switchRegistrationMode = () => {
         setIsRegistering((prevState) => !prevState);
@@ -16,7 +24,7 @@ export const Auth = () => {
         if (isRegistering) {
             register({ username: form.username, password: form.password })
                 .then((res) => {
-                    // TODO 
+                    // TODO
                 })
                 .catch((err) => setError(err.response.data.message));
         } else {
