@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Handles the Store Services
+ * Holds multiple methods to handle Store data
  */
 @Service
 public class StoreService {
@@ -30,7 +30,7 @@ public class StoreService {
     }
 
     /**
-     * @param adminId Value of sent in admin ID
+     * @param adminId Admin ID
      * @return List of stores at given admin ID
      */
     public List<Store> getStores(Long adminId) {
@@ -44,9 +44,9 @@ public class StoreService {
     }
 
     /**
-     * @param adminId Value of sent in admin ID
-     * @param storeId Value of sent in store ID
-     * @return A store at a given admin ID and store ID
+     * @param adminId Admin ID
+     * @param storeId Store ID
+     * @return A store at a given Admin ID and Store ID
      */
     public Store getStore(Long adminId,Long storeId) {
         Optional<Store> storeOptional = storeRepository.findByAdminUser_IdAndId(adminId, storeId);

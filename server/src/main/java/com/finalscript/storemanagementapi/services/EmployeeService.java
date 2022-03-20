@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Handles the Employee Services
+ * Holds multiple methods to handle Employee data
  */
 @Service
 public class EmployeeService {
@@ -32,7 +32,7 @@ public class EmployeeService {
     }
 
     /**
-     * @param storeId Value of sent in store ID
+     * @param storeId Store ID
      * @return List of employees at a given store
      */
     public List<Employee> getEmployees(Long storeId) {
@@ -46,8 +46,8 @@ public class EmployeeService {
     }
 
     /**
-     * @param storeId Value of sent in store ID
-     * @param employeeId Value of sent in employee ID
+     * @param storeId Store ID
+     * @param employeeId Employee ID
      * @return Employee at a given store with the given ID
      */
     public Employee getEmployee(Long storeId, Long employeeId) {
@@ -61,8 +61,8 @@ public class EmployeeService {
     }
 
     /**
-     * @param storeId Value of sent in store ID
-     * @param password Value of employee password
+     * @param storeId Store ID
+     * @param password Employee Password
      * @return A new employee filled with the given parameters
      */
     public Employee newEmployee(Long storeId, String password) {

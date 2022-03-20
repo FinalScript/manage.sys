@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 /**
- * Handles the AdminUser Services
+ * Holds multiple methods to handle AdminUser data
  */
 @Service
 public class AdminUserService {
@@ -27,8 +27,8 @@ public class AdminUserService {
     }
 
     /**
-     * @param id Value of sent in admin ID
-     * @return Retrieved admin at the given ID
+     * @param id Admin ID
+     * @return Retrieved Admin at the given ID
      */
     public AdminUser getAdmin(Long id) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
@@ -41,8 +41,8 @@ public class AdminUserService {
     }
 
     /**
-     * @param newUser New AdminUser object
-     * @return A new registered admin user
+     * @param newUser AdminUser object
+     * @return A newly registered AdminUser
      */
     public AdminUser register(AdminUser newUser) {
         Optional<AdminUser> userOptional = adminUserRepository.findAdminUserByUsername(newUser.getUsername());
