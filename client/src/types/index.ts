@@ -7,6 +7,24 @@ export interface AuthData {
     token: string;
 }
 
-export interface AuthDataState {
+export interface AuthReducer {
     authData: AuthData;
+}
+
+export interface AuthDataState {
+    authReducer: AuthReducer;
+}
+
+export interface StoreData {
+    id: number;
+    name: string;
+    adminUser: number;
+}
+
+export interface StoreReducer {
+    storeData: [StoreData];
+}
+
+export interface StoreDataState {
+    storeReducer: StoreReducer;
 }

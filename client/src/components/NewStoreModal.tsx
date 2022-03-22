@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { createNewStore } from '../api/index';
+import { ADD_STORE } from '../constants/actions';
 
 interface Props {
     hidden: boolean;
@@ -7,6 +9,7 @@ interface Props {
 }
 
 export const NewStoreModal = ({ hidden, toggle }: Props) => {
+    const dispatch = useDispatch();
     const [form, setForm] = useState({ storeName: '' });
     const [error, setError] = useState('');
 
@@ -22,6 +25,8 @@ export const NewStoreModal = ({ hidden, toggle }: Props) => {
         if (form.storeName !== '') {
             createNewStore({ storeName: form.storeName })
                 .then((res) => {
+                    dispatch({ type: ADD_STORE, payload: res.data });
+
                     toggle();
                 })
                 .catch((err) => {

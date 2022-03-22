@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { register, login } from '../api/index';
+import { register, login, setBearerToken } from '../api/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { AUTH } from '../constants/actions';
 import { Link } from 'react-router-dom';
 import { AuthDataState } from '../types/index';
 
 export const Auth = () => {
-    const authData = useSelector((state: AuthDataState) => state.authData);
+    const authData = useSelector((state: AuthDataState) => state.authReducer.authData);
     const dispatch = useDispatch();
     const [isRegistering, setIsRegistering] = useState(true);
     const [form, setForm] = useState({ username: '', password: '', confirmPassword: '' });
@@ -31,12 +31,20 @@ export const Auth = () => {
             register({ username: form.username, password: form.password })
                 .then((res) => {
                     dispatch({ type: AUTH, payload: res.data });
+              
+                    if (res.data.token) {
+                        setBearerToken(res.data.token);
+                    }
                 })
                 .catch((err) => setError(err.response.data.message));
         } else {
             login({ username: form.username, password: form.password })
                 .then((res) => {
                     dispatch({ type: AUTH, payload: res.data });
+                   
+                    if (res.data.token) {
+                        setBearerToken(res.data.token);
+                    }
                 })
                 .catch((err) => setError(err.response.data.message));
         }

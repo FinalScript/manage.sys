@@ -5,7 +5,7 @@ import { AuthDataState } from '../types/index';
 import { LOGOUT } from '../constants/actions';
 
 export const Nav = () => {
-    const authData = useSelector((state: AuthDataState) => state.authData);
+    const authData = useSelector((state: AuthDataState) => state.authReducer.authData);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

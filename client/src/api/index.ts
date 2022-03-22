@@ -7,6 +7,14 @@ interface registerParams {
     password: String;
 }
 
+export const setBearerToken = (token: string) => {
+    api.defaults.headers.common = { Authorization: token };
+};
+
+export const getBearerToken = () => {
+    return api.defaults.headers.common;
+};
+
 export const register = (params: registerParams) =>
     api({
         method: 'POST',
@@ -21,9 +29,7 @@ export const login = (params: registerParams) =>
         params,
     });
 
-export const getAuthData = (token: string) => {
-    api.defaults.headers.common = { Authorization: token };
-
+export const getAuthData = () => {
     return api({
         method: 'GET',
         url: '/api/v1/admin',
@@ -39,5 +45,12 @@ export const createNewStore = (params: StoreParams) => {
         method: 'POST',
         url: '/api/v1/store',
         params,
+    });
+};
+
+export const getStores = () => {
+    return api({
+        method: 'GET',
+        url: '/api/v1/store',
     });
 };
