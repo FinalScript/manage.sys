@@ -54,3 +54,22 @@ export const getStores = () => {
         url: '/api/v1/store',
     });
 };
+
+export const getEmployees = (storeId: number) => {
+    return api({
+        method: 'GET',
+        url: `/api/v1/store/${storeId}/employee`,
+    });
+};
+
+interface EmployeeParams {
+    name: string;
+}
+
+export const createNewEmployee = (storeId: number, params: EmployeeParams) => {
+    return api({
+        method: 'POST',
+        url: `/api/v1/store/${storeId}/employee`,
+        params,
+    });
+};

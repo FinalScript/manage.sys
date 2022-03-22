@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee newEmployee(@RequestParam String password, @PathVariable Long storeId) {
-        return employeeService.newEmployee(storeId, password);
+    public Employee newEmployee(@RequestParam String name, @PathVariable Long storeId) {
+        return employeeService.newEmployee(storeId, name);
     }
 }

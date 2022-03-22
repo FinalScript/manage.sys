@@ -11,7 +11,7 @@ export const Nav = () => {
 
     const logout = () => {
         dispatch({ type: LOGOUT });
-        navigate("/auth");
+        navigate('/auth');
     };
 
     return (
@@ -31,13 +31,12 @@ export const Nav = () => {
                     </svg>
                     <span className='ml-3 text-xl'>Store Management System</span>
                 </Link>
-                <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'>
-                    {/* <Link to={'/'} className='mr-5 hover:text-white'>
-                        Home
-                    </Link> */}
-                </nav>
+                <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'></nav>
                 {authData ? (
                     <>
+                        <Link to={'/dashboard'} className='mr-6 hover:text-white'>
+                            Dashboard
+                        </Link>
                         <button
                             onClick={logout}
                             className='inline-flex items-center bg-teal-300 text-black border-0 py-1 px-3 focus:outline-none hover:bg-teal-500 rounded text-base mt-4 md:mt-0'>

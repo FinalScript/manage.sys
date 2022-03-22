@@ -28,3 +28,13 @@ export interface StoreReducer {
 export interface StoreDataState {
     storeReducer: StoreReducer;
 }
+
+export interface EmployeeData {
+    id: number;
+    name: string;
+    password: string;
+    wage: number;
+    status: string;
+    startingDate: string;
+    store: number;
+}

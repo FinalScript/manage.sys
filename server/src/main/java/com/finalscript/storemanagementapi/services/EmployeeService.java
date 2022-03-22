@@ -19,8 +19,7 @@ public class EmployeeService {
     private final StoreRepository storeRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository,
-                           StoreRepository storeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, StoreRepository storeRepository) {
         this.employeeRepository = employeeRepository;
         this.storeRepository = storeRepository;
     }
@@ -45,7 +44,7 @@ public class EmployeeService {
         return employeeOptional.get();
     }
 
-    public Employee newEmployee(Long storeId, String password) {
+    public Employee newEmployee(Long storeId, String name) {
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
         // Checks if the there is an existing store with the given store ID
@@ -54,17 +53,16 @@ public class EmployeeService {
         }
 
         // Checks if the provided password is of a valid range
-        if (password.length() < 6) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long");
-        }
+//        if (password.length() < 6) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 6 characters long");
+//        }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        Employee employee = new Employee();
-        employee.setPassword(encoder.encode(password));
+        Employee employee = new Employee(name);
+//        employee.setPassword(encoder.encode(password));
         employee.setStore(storeOptional.get());
 
-        System.out.println(employee);
         return employeeRepository.save(employee);
     }
 }
