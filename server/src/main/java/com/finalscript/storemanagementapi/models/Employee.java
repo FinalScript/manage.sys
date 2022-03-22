@@ -17,6 +17,8 @@ public class Employee {
     @Column(name = "employee_id")
     private Long id;
     @Column(nullable = false, length = 100)
+    private String name;
+    @Column(length = 100)
     private String password;
     private Float wage;
     @Column(length = 50)
@@ -32,8 +34,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String password) {
-        this.password = password;
+    public Employee(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -42,6 +44,14 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -86,6 +96,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", password='" + password + '\'' + ", wage=" + wage + ", status='" + status + '\'' + ", starting_date=" + startingDate + ", store=" + store + '}';
+        return "Employee{" + "id=" + id + ", name='" + name + '\'' + ", password='" + password + '\'' + ", wage=" + wage + ", status='" + status + '\'' + ", startingDate=" + startingDate + ", store=" + store + '}';
     }
 }

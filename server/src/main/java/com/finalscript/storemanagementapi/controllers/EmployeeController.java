@@ -11,6 +11,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(path = "/api/v1/store/{storeId}/employee")
+@CrossOrigin(origins ="*")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -47,7 +48,7 @@ public class EmployeeController {
      * @return A new employee filled with the given parameters
      */
     @PostMapping
-    public Employee newEmployee(@RequestParam String password, @PathVariable Long storeId) {
-        return employeeService.newEmployee(storeId, password);
+    public Employee newEmployee(@RequestParam String name, @PathVariable Long storeId) {
+        return employeeService.newEmployee(storeId, name);
     }
 }
