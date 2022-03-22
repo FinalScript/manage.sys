@@ -9,21 +9,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Holds multiple methods to handle Employee data
+ */
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final StoreRepository storeRepository;
 
+    /**
+     * @param employeeRepository Employee Repository object
+     * @param storeRepository Store Repository object
+     */
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, StoreRepository storeRepository) {
         this.employeeRepository = employeeRepository;
         this.storeRepository = storeRepository;
     }
 
+    /**
+     * @param storeId Store ID
+     * @return List of employees at a given store
+     */
     public List<Employee> getEmployees(Long storeId) {
         List<Employee> employeeList = employeeRepository.findEmployeesByStore_Id(storeId);
 
@@ -34,6 +44,11 @@ public class EmployeeService {
         return employeeList;
     }
 
+    /**
+     * @param storeId Store ID
+     * @param employeeId Employee ID
+     * @return Employee at a given store with the given ID
+     */
     public Employee getEmployee(Long storeId, Long employeeId) {
         Optional<Employee> employeeOptional = Optional.ofNullable(employeeRepository.findEmployeeByStore_IdAndId(storeId, employeeId));
 
@@ -44,7 +59,13 @@ public class EmployeeService {
         return employeeOptional.get();
     }
 
+    /**
+     * @param storeId Store ID
+     * @param name Employee name
+     * @return A new employee filled with the given parameters
+     */
     public Employee newEmployee(Long storeId, String name) {
+
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
         // Checks if the there is an existing store with the given store ID
