@@ -8,21 +8,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Holds multiple methods to handle Store data
+ */
 @Service
 public class StoreService {
     private final StoreRepository storeRepository;
     private final AdminUserRepository adminUserRepository;
 
+    /**
+     * @param storeRepository Store Repository object
+     * @param adminUserRepository Admin User Repository object
+     */
     @Autowired
     public StoreService(StoreRepository storeRepository, AdminUserRepository adminUserRepository) {
         this.storeRepository = storeRepository;
         this.adminUserRepository = adminUserRepository;
     }
 
+    /**
+     * @param adminId Admin ID
+     * @return List of stores at given admin ID
+     */
     public List<Store> getStores(Long adminId) {
         List<Store> storesList = storeRepository.findAllByAdminUser_Id(adminId);
 
@@ -33,6 +43,11 @@ public class StoreService {
         return storesList;
     }
 
+    /**
+     * @param adminId Admin ID
+     * @param storeId Store ID
+     * @return A store at a given Admin ID and Store ID
+     */
     public Store getStore(Long adminId,Long storeId) {
         Optional<Store> storeOptional = storeRepository.findByAdminUser_IdAndId(adminId, storeId);
 
@@ -43,6 +58,11 @@ public class StoreService {
         return storeOptional.get();
     }
 
+    /**
+     * @param adminId Value of sent in admin ID
+     * @param storeName value of sent in store name
+     * @return A new store filled with the given parameters
+     */
     public Store newStore(Long adminId, String storeName) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(adminId);
 
