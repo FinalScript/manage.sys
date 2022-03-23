@@ -2,11 +2,13 @@ package com.finalscript.storemanagementapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "store")
@@ -17,12 +19,16 @@ public class Store {
     private Long id;
     @Column(nullable = false, length = 200)
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "admin_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private AdminUser adminUser;
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Employee> employees;
 
     public Store() {
     }
@@ -54,6 +60,14 @@ public class Store {
 
     public void setAdminUser(AdminUser adminUser) {
         this.adminUser = adminUser;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
     @Override
