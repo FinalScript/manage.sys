@@ -52,4 +52,12 @@ public class StoreController {
     public Store newStore(@RequestParam String storeName, HttpServletRequest httpServletRequest) {
         return storeService.newStore((Long) httpServletRequest.getAttribute("adminId"), storeName);
     }
+
+    public void deleteStore() {
+        // TODO
+    }
+
+    public void updateStore() {
+        // TODO
+    }
 }

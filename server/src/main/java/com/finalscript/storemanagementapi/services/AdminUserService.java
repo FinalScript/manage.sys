@@ -13,14 +13,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Holds multiple methods to handle AdminUser data
+ * Service class for handling adminUser data
  */
 @Service
 public class AdminUserService {
     private final AdminUserRepository adminUserRepository;
 
     /**
-     * @param adminUserRepository Admin User Repository object
+     * @param adminUserRepository adminUser repository object
      */
     @Autowired
     public AdminUserService(AdminUserRepository adminUserRepository) {
@@ -28,8 +28,10 @@ public class AdminUserService {
     }
 
     /**
-     * @param id Admin ID
-     * @return Retrieved Admin at the given ID
+     * This method will get an adminUser by id
+     *
+     * @param id admin id
+     * @return Retrieved adminUser
      */
     public AdminUser getAdmin(Long id) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
@@ -42,8 +44,10 @@ public class AdminUserService {
     }
 
     /**
-     * @param newUser AdminUser object
-     * @return A newly registered AdminUser
+     * This method will create a new adminUser and generate a bearer token
+     *
+     * @param newUser adminUser object
+     * @return Newly created adminUser
      */
     public AdminUser register(AdminUser newUser) {
         Optional<AdminUser> userOptional = adminUserRepository.findAdminUserByUsername(newUser.getUsername());
@@ -68,8 +72,10 @@ public class AdminUserService {
     }
 
     /**
-     * @param user Existing AdminUser object
-     * @return The Logged in admin user
+     * This method will get an adminUser and generate a bearer token
+     *
+     * @param user existing adminUser object
+     * @return Retrieved adminUser
      */
     public AdminUser login(AdminUser user) {
         Optional<AdminUser> userOptional = adminUserRepository.findAdminUserByUsername(user.getUsername());
@@ -89,6 +95,13 @@ public class AdminUserService {
         return userOptional.get();
     }
 
+
+    /**
+     * This method will delete an adminUser by validation of password
+     *
+     * @param id       admin id
+     * @param password admin password
+     */
     public void deleteAdmin(Long id, String password) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
 
@@ -105,6 +118,15 @@ public class AdminUserService {
         adminUserRepository.deleteById(id);
     }
 
+    /**
+     * This method will update an adminUser by validation of password, and optional fields of name and email
+     *
+     * @param id       admin id
+     * @param password admin password
+     * @param name     admin name
+     * @param email    admin email
+     * @return updated AdminUser
+     */
     public AdminUser updateAdmin(Long id, String password, String name, String email) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(id);
 
@@ -118,15 +140,15 @@ public class AdminUserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
         }
 
-        if(Objects.equals(userOptional.get().getName(), name)) {
+        if (Objects.equals(userOptional.get().getName(), name)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be the same");
         }
 
-        if (name != null && name.length() > 0  ) {
+        if (name != null && name.length() > 0) {
             userOptional.get().setName(name);
         }
 
-        if(Objects.equals(userOptional.get().getEmail(), email)) {
+        if (Objects.equals(userOptional.get().getEmail(), email)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email cannot be the same");
         }
 

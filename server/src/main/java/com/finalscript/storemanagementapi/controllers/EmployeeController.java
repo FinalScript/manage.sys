@@ -43,12 +43,20 @@ public class EmployeeController {
     }
 
     /**
-     * @param password password of employee
+     * @param name name of employee
      * @param storeId ID of store
      * @return A new employee filled with the given parameters
      */
     @PostMapping
     public Employee newEmployee(@RequestParam String name, @PathVariable Long storeId) {
         return employeeService.newEmployee(storeId, name);
+    }
+
+    public void deleteEmployee() {
+        // TODO
+    }
+
+    public void updateEmployee() {
+        // TODO
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class EmployeeService {
 
     /**
      * @param employeeRepository Employee Repository object
-     * @param storeRepository Store Repository object
+     * @param storeRepository    Store Repository object
      */
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, StoreRepository storeRepository) {
@@ -45,7 +46,7 @@ public class EmployeeService {
     }
 
     /**
-     * @param storeId Store ID
+     * @param storeId    Store ID
      * @param employeeId Employee ID
      * @return Employee at a given store with the given ID
      */
@@ -61,7 +62,7 @@ public class EmployeeService {
 
     /**
      * @param storeId Store ID
-     * @param name Employee name
+     * @param name    Employee name
      * @return A new employee filled with the given parameters
      */
     public Employee newEmployee(Long storeId, String name) {
@@ -85,5 +86,23 @@ public class EmployeeService {
         employee.setStore(storeOptional.get());
 
         return employeeRepository.save(employee);
+    }
+
+    /**
+     * This method must delete the employee by id
+     */
+    public void deleteEmployee() {
+        // TODO
+    }
+
+    /**
+     * This method must take in the following parameters and check if those parameters are not the same as their previous values
+     * - Float wage
+     * - String status
+     * - Date startingDate
+     * It will proceed to update the employee by id and return the newly updated employee
+     */
+    public void updateEmployee() {
+        // TODO
     }
 }

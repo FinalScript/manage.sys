@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -73,5 +74,21 @@ public class StoreService {
         Store store = new Store(storeName, userOptional.get());
 
         return storeRepository.save(store);
+    }
+
+    /**
+     * This method must validate the password and then proceed to delete the store by id
+     * @param password admin password
+     */
+    public void deleteStore() {
+        // TODO
+    }
+
+    /**
+     * This method must take in a parameter of storeName and if that parameter exists and is not the same as the previous name
+     * It will proceed to update the store by id and return the newly updated store
+     */
+    public void updateStore() {
+        // TODO
     }
 }
