@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,8 @@ public class StoreService {
     }
 
     /**
+     * Gets all stores of an admin
+     *
      * @param adminId Admin ID
      * @return List of stores at given admin ID
      */
@@ -46,6 +49,8 @@ public class StoreService {
     }
 
     /**
+     * Gets a single store of an admin
+     *
      * @param adminId Admin ID
      * @param storeId Store ID
      * @return A store at a given Admin ID and Store ID
@@ -61,6 +66,8 @@ public class StoreService {
     }
 
     /**
+     * Creates a new store with the given parameters
+     *
      * @param adminId   Value of sent in admin ID
      * @param storeName value of sent in store name
      * @return A new store filled with the given parameters
@@ -78,7 +85,7 @@ public class StoreService {
     }
 
     /**
-     * Deletes a store given it's id and a valid password
+     * Deletes a single store
      *
      * @param adminId  admin id
      * @param storeId  store id
@@ -110,12 +117,47 @@ public class StoreService {
     }
 
     /**
-     * This method must take in a parameter of storeName and if that parameter exists and is not the same as the previous name
-     * It will proceed to update the store by id and return the newly updated store
+     * Updates a stores name
+     *
+     * @param adminId   admin id
+     * @param storeId   store id
+     * @param storeName store name
+     * @param password  admin password
+     * @return Updated store with new store name
      */
-    public Store updateStore() {
-        // TODO
+    public Store updateStore(Long adminId, Long storeId, String storeName, String password) {
+        Optional<AdminUser> userOptional = adminUserRepository.findById(adminId);
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
 
-        return null;
+        //Admin does not exist
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Account with that id does not exist");
+        }
+
+        //Store does not exist
+        if (storeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Store with that id does not exist");
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        //Checking if the Admins' password matches the password stored in the database
+        if (!encoder.matches(password, userOptional.get().getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
+        }
+
+        //Checks if store name is equal to the previous store name
+        if (Objects.equals(storeOptional.get().getName(), storeName)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store name cannot be the same");
+        }
+
+        //Checks if store name isn't empty and sets the new store name
+        if (storeName != null && storeName.length() > 0) {
+            storeOptional.get().setName(storeName);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store name cannot be empty");
+        }
+
+        return storeRepository.save(storeOptional.get());
     }
 }

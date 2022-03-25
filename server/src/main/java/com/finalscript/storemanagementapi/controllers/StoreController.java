@@ -57,19 +57,24 @@ public class StoreController {
     }
 
     /**
+     * @param httpServletRequest HTTP Request object
      * @param storeId            store id
      * @param password           admin password
-     * @param httpServletRequest HTTP Request object
      */
     @DeleteMapping(path = "{storeId}")
-    public void deleteStore(@PathVariable Long storeId, @RequestParam String password, HttpServletRequest httpServletRequest) {
-
+    public void deleteStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam String password) {
         storeService.deleteStore((Long) httpServletRequest.getAttribute("adminId"), storeId, password);
     }
 
-    public Store updateStore() {
-        // TODO
-
-        return storeService.updateStore();
+    /**
+     * @param httpServletRequest HTTP Request object
+     * @param storeId            store id
+     * @param storeName          store name
+     * @param password           admin password
+     * @return Updated store with new store name
+     */
+    @PatchMapping(path = "{storeId}")
+    public Store updateStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam String storeName, @RequestParam String password) {
+        return storeService.updateStore((Long) httpServletRequest.getAttribute("adminId"), storeId, storeName, password);
     }
 }
