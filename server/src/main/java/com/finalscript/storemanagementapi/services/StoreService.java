@@ -6,6 +6,7 @@ import com.finalscript.storemanagementapi.repositories.AdminUserRepository;
 import com.finalscript.storemanagementapi.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,7 +22,7 @@ public class StoreService {
     private final AdminUserRepository adminUserRepository;
 
     /**
-     * @param storeRepository Store Repository object
+     * @param storeRepository     Store Repository object
      * @param adminUserRepository Admin User Repository object
      */
     @Autowired
@@ -49,10 +50,10 @@ public class StoreService {
      * @param storeId Store ID
      * @return A store at a given Admin ID and Store ID
      */
-    public Store getStore(Long adminId,Long storeId) {
+    public Store getStore(Long adminId, Long storeId) {
         Optional<Store> storeOptional = storeRepository.findByAdminUser_IdAndId(adminId, storeId);
 
-        if(storeOptional.isEmpty()) {
+        if (storeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
         }
 
@@ -60,7 +61,7 @@ public class StoreService {
     }
 
     /**
-     * @param adminId Value of sent in admin ID
+     * @param adminId   Value of sent in admin ID
      * @param storeName value of sent in store name
      * @return A new store filled with the given parameters
      */
@@ -77,18 +78,44 @@ public class StoreService {
     }
 
     /**
-     * This method must validate the password and then proceed to delete the store by id
+     * Deletes a store given it's id and a valid password
+     *
+     * @param adminId  admin id
+     * @param storeId  store id
      * @param password admin password
      */
-    public void deleteStore() {
-        // TODO
+    public void deleteStore(Long adminId, Long storeId, String password) {
+        Optional<AdminUser> userOptional = adminUserRepository.findById(adminId);
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
+
+        //Admin does not exist
+        if (userOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Account with that id does not exist");
+        }
+
+        //Store does not exist
+        if (storeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Store with that id does not exist");
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        //Checking if the Admins' password matches the password stored in the database
+        if (!encoder.matches(password, userOptional.get().getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
+        }
+
+        //Deleting the store with the given store id
+        storeRepository.deleteById(storeId);
     }
 
     /**
      * This method must take in a parameter of storeName and if that parameter exists and is not the same as the previous name
      * It will proceed to update the store by id and return the newly updated store
      */
-    public void updateStore() {
+    public Store updateStore() {
         // TODO
+
+        return null;
     }
 }
