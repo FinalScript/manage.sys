@@ -19,7 +19,7 @@ public class Store {
     private Long id;
     @Column(nullable = false, length = 200)
     private String name;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne() //cascade = CascadeType.REMOVE
     @JoinColumn(name = "admin_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
