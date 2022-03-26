@@ -4,14 +4,15 @@ import com.finalscript.storemanagementapi.models.Employee;
 import com.finalscript.storemanagementapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
- *  Handles the Employee Controller
+ * Handles the Employee Controller
  */
 @RestController
 @RequestMapping(path = "/api/v1/store/{storeId}/employee")
-@CrossOrigin(origins ="*")
+@CrossOrigin(origins = "*")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -34,7 +35,7 @@ public class EmployeeController {
 
     /**
      * @param employeeId ID of employee
-     * @param storeId ID of store
+     * @param storeId    ID of store
      * @return Employee at a given store with the given ID
      */
     @GetMapping(path = "{employeeId}")
@@ -43,7 +44,7 @@ public class EmployeeController {
     }
 
     /**
-     * @param name name of employee
+     * @param name    name of employee
      * @param storeId ID of store
      * @return A new employee filled with the given parameters
      */
@@ -52,11 +53,16 @@ public class EmployeeController {
         return employeeService.newEmployee(storeId, name);
     }
 
-    public void deleteEmployee() {
-        // TODO
+    @DeleteMapping(path = "{employeeId}")
+    public void deleteEmployee(@PathVariable Long employeeId, @PathVariable Long storeId) {
+        employeeService.deleteEmployee(storeId, employeeId);
     }
 
-    public void updateEmployee() {
-        // TODO
+    @PatchMapping(path = "{employeeId}")
+    public Employee updateEmployee(@PathVariable Long employeeId, @PathVariable Long storeId,
+                                   @RequestParam(required = false) Float wage,
+                                   @RequestParam(required = false) String status,
+                                   @RequestParam(required = false) String startingDate) {
+        return employeeService.updateEmployee(storeId, employeeId, wage, status, startingDate);
     }
 }

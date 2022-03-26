@@ -10,7 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -91,8 +95,20 @@ public class EmployeeService {
     /**
      * This method must delete the employee by id
      */
-    public void deleteEmployee() {
+    public void deleteEmployee(Long storeId, Long employeeId) {
         // TODO
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+
+        if (storeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
+        }
+
+        if (employeeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee #" + employeeId + " does not exist");
+        }
+
+        employeeRepository.deleteById(employeeId);
     }
 
     /**
@@ -102,7 +118,52 @@ public class EmployeeService {
      * - Date startingDate
      * It will proceed to update the employee by id and return the newly updated employee
      */
-    public void updateEmployee() {
+    public Employee updateEmployee(Long storeId, Long employeeId, Float wage, String status, String startingDate) {
         // TODO
+        Optional<Store> storeOptional = storeRepository.findById(storeId);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+
+        if (storeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
+        }
+
+        if (employeeOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee #" + employeeId + " does not exist");
+        }
+
+        if (Objects.equals(employeeOptional.get().getWage(), wage)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wage cannot be the same");
+        }
+
+        if (wage != null && wage > 0) {
+            employeeOptional.get().setWage(wage);
+        }
+
+        if (Objects.equals(employeeOptional.get().getStatus(), status)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status cannot be the same");
+        }
+
+        if (status != null && status.length() > 0) {
+            employeeOptional.get().setStatus(status);
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+            date = format.parse(startingDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (Objects.equals(employeeOptional.get().getStartingDate(), date)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Starting Date cannot be the same");
+        }
+
+        if (date != null) {
+            employeeOptional.get().setStartingDate(date);
+        }
+
+        return employeeRepository.save(employeeOptional.get());
+
     }
 }
