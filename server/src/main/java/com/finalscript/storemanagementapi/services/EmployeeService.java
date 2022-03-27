@@ -42,6 +42,7 @@ public class EmployeeService {
     public List<Employee> getEmployees(Long storeId) {
         List<Employee> employeeList = employeeRepository.findEmployeesByStore_Id(storeId);
 
+        // Checks if the there is an existing store with the given store ID
         if (employeeList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found at store #" + storeId);
         }
@@ -92,45 +93,59 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+
     /**
-     * This method must delete the employee by id
+     * Deletes a single employee
+     *
+     * @param storeId    ID of store
+     * @param employeeId ID of employee
      */
     public void deleteEmployee(Long storeId, Long employeeId) {
         // TODO
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
+        // Checks if the there is an existing store with the given store ID
         if (storeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
         }
 
+        // Checks if the there is an existing employee with the given employee ID
         if (employeeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee #" + employeeId + " does not exist");
         }
 
+        //Deleting the employee with the given employee id
         employeeRepository.deleteById(employeeId);
     }
 
+
     /**
-     * This method must take in the following parameters and check if those parameters are not the same as their previous values
-     * - Float wage
-     * - String status
-     * - Date startingDate
-     * It will proceed to update the employee by id and return the newly updated employee
+     * Updates employee with new wage, status and starting date
+     *
+     * @param storeId      ID of store
+     * @param employeeId   ID of employee
+     * @param wage         wage of employee
+     * @param status       status of employee
+     * @param startingDate starting date of employee
+     * @return Updated employee  with new wage, status and starting date
      */
     public Employee updateEmployee(Long storeId, Long employeeId, Float wage, String status, String startingDate) {
         // TODO
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
+        // Checks if the there is an existing store with the given store ID
         if (storeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Store #" + storeId + " does not exist");
         }
 
+        // Checks if the there is an existing employee with the given employee ID
         if (employeeOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee #" + employeeId + " does not exist");
         }
 
+        //Checks if employee wage is equal to the previous employee wage amount
         if (Objects.equals(employeeOptional.get().getWage(), wage)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wage cannot be the same");
         }
@@ -139,6 +154,7 @@ public class EmployeeService {
             employeeOptional.get().setWage(wage);
         }
 
+        //Checks if employee status is equal to the previous employee status
         if (Objects.equals(employeeOptional.get().getStatus(), status)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status cannot be the same");
         }
@@ -155,6 +171,7 @@ public class EmployeeService {
             e.printStackTrace();
         }
 
+        //Checks if employee Starting Date is equal to the previous employee Starting Date
         if (Objects.equals(employeeOptional.get().getStartingDate(), date)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Starting Date cannot be the same");
         }

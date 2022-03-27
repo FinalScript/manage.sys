@@ -53,11 +53,23 @@ public class EmployeeController {
         return employeeService.newEmployee(storeId, name);
     }
 
+    /**
+     * @param employeeId ID of employee
+     * @param storeId    ID of store
+     */
     @DeleteMapping(path = "{employeeId}")
     public void deleteEmployee(@PathVariable Long employeeId, @PathVariable Long storeId) {
         employeeService.deleteEmployee(storeId, employeeId);
     }
 
+    /**
+     * @param employeeId   ID of employee
+     * @param storeId      ID of store
+     * @param wage         wage of employee
+     * @param status       status of employee
+     * @param startingDate starting date of employee
+     * @return Updated employee  with new wage, status and starting date
+     */
     @PatchMapping(path = "{employeeId}")
     public Employee updateEmployee(@PathVariable Long employeeId, @PathVariable Long storeId,
                                    @RequestParam(required = false) Float wage,
