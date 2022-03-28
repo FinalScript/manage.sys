@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(path = "/api/v1/admin")
-@CrossOrigin(origins ="*")
+@CrossOrigin(origins = "*")
 public class AdminUserController {
     private final AdminUserService adminUserService;
 
@@ -25,7 +25,7 @@ public class AdminUserController {
     }
 
     /**
-     * @return  Retrieved admin at the given ID
+     * @return Retrieved admin at the given ID
      */
     @GetMapping
     public AdminUser getAdmin() {
@@ -56,5 +56,22 @@ public class AdminUserController {
         AdminUser newUser = new AdminUser(username, password);
 
         return adminUserService.login(newUser);
+    }
+
+    /**
+     * @param password password of admin
+     */
+    @DeleteMapping
+    public void deleteAdmin(@RequestParam String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        adminUserService.deleteAdmin(Long.valueOf(authentication.getPrincipal().toString()), password);
+    }
+
+    @PatchMapping
+    public AdminUser updateAdmin(@RequestParam String password, @RequestParam(required = false) String name, @RequestParam(required = false) String email) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return adminUserService.updateAdmin(Long.valueOf(authentication.getPrincipal().toString()), password, name, email);
     }
 }

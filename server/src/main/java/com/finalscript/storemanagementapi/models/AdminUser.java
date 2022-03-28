@@ -1,7 +1,11 @@
 package com.finalscript.storemanagementapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Table(name = "admin_user")
@@ -20,6 +24,10 @@ public class AdminUser {
     private String email;
     @Transient
     private String token;
+    @OneToMany(mappedBy = "adminUser", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Store> stores;
 
     public AdminUser() {
     }
@@ -77,15 +85,16 @@ public class AdminUser {
         this.token = token;
     }
 
+    public Set<Store> getStores() {
+        return stores;
+    }
+
+    public void setStores(Set<Store> stores) {
+        this.stores = stores;
+    }
+
     @Override
     public String toString() {
-        return "AdminUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", token='" + token + '\'' +
-                '}';
+        return "AdminUser{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password + '\'' + ", name='" + name + '\'' + ", email='" + email + '\'' + ", token='" + token + '\'' + '}';
     }
 }
