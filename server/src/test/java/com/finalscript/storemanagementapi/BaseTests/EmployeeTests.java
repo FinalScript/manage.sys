@@ -25,8 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class T3EmployeeTests {
+public class EmployeeTests {
     private static String token;
+    private static int storeId;
+    private static int employeeId;
     @Autowired
     private MockMvc mvc;
     @Autowired
@@ -34,30 +36,41 @@ public class T3EmployeeTests {
 
     @Test
     public void T1_Create_Employee_Expect200() throws Exception {
-        MvcResult mvcResult = mvc.perform(post("/api/v1/admin/register").contentType(MediaType.APPLICATION_JSON)
-                        .queryParam("username", "TestUser")
+        MvcResult adminMvcResult = mvc.perform(post("/api/v1/admin/register").contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("username", "EmployeeTestUser")
                         .queryParam("password", "123456"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        JSONObject jsonObject = new JSONObject(mvcResult.getResponse()
+        JSONObject adminJson = new JSONObject(adminMvcResult.getResponse()
                 .getContentAsString());
-        token = jsonObject.getString("token");
+        token = adminJson.getString("token");
 
-        mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
+        MvcResult storeMvcResult = mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("storeName", "TestStore")
                         .header("authorization", token))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
 
-        mvc.perform(post("/api/v1/store/{storeId}/employee", 1).contentType(MediaType.APPLICATION_JSON)
+        JSONObject storeJson = new JSONObject(storeMvcResult.getResponse()
+                .getContentAsString());
+        storeId = storeJson.getInt("id");
+
+        MvcResult employeeMvcResult = mvc.perform(post("/api/v1/store/{storeId}/employee", storeId).contentType(MediaType.APPLICATION_JSON)
                         .queryParam("name", "TestEmployee")
                         .header("authorization", token))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+
+        JSONObject employeeJson = new JSONObject(employeeMvcResult.getResponse()
+                .getContentAsString());
+        employeeId = employeeJson.getInt("id");
     }
 
     @Test
     public void T2_Get_Employee_Expect200() throws Exception {
-        mvc.perform(get("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .queryParam("name", "TestEmployee")
                         .header("authorization", token))
                 .andExpect(status().isOk())
@@ -66,21 +79,21 @@ public class T3EmployeeTests {
 
     @Test
     public void T3_Get_Employee_NoAuth_Expect403() throws Exception {
-        mvc.perform(get("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .queryParam("name", "TestEmployee"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void T4_Patch_Employee_NoChanges_Expect200() throws Exception {
-        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .header("authorization", token))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void T5_Patch_Employee_WageAndStatus_Expect200() throws Exception {
-        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .header("authorization", token)
                         .queryParam("wage", "16")
                         .queryParam("status", "Hired"))
@@ -91,7 +104,7 @@ public class T3EmployeeTests {
 
     @Test
     public void T6_Patch_Employee_SameWage_Expect400() throws Exception {
-        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .header("authorization", token)
                         .queryParam("wage", "16"))
                 .andExpect(status().isBadRequest());
@@ -99,11 +112,11 @@ public class T3EmployeeTests {
 
     @Test
     public void T7_Delete_Employee_Expect200() throws Exception {
-        mvc.perform(delete("/api/v1/store/{storeId}/employee/{employeeId}", 1, 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(delete("/api/v1/store/{storeId}/employee/{employeeId}", storeId, employeeId).contentType(MediaType.APPLICATION_JSON)
                         .header("authorization", token))
                 .andExpect(status().isOk());
 
-        Optional<Store> storeOptional = storeRepository.findById(1L);
+        Optional<Store> storeOptional = storeRepository.findById((long) storeId);
 
         if (storeOptional.isEmpty()) {
             throw new Exception();

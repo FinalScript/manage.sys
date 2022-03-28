@@ -25,8 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class T2StoreTests {
+public class StoreTests {
     private static String token;
+    private static int storeId;
+    private static int adminId;
     @Autowired
     private MockMvc mvc;
     @Autowired
@@ -34,20 +36,26 @@ public class T2StoreTests {
 
     @Test
     public void T1_Create_Store_Expect200() throws Exception {
-        MvcResult mvcResult = mvc.perform(post("/api/v1/admin/register").contentType(MediaType.APPLICATION_JSON)
-                        .queryParam("username", "TestUser")
+        MvcResult adminMvcResult = mvc.perform(post("/api/v1/admin/register").contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("username", "StoreTestUser")
                         .queryParam("password", "123456"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        JSONObject jsonObject = new JSONObject(mvcResult.getResponse()
+        JSONObject adminJson = new JSONObject(adminMvcResult.getResponse()
                 .getContentAsString());
-        token = jsonObject.getString("token");
+        token = adminJson.getString("token");
+        adminId = adminJson.getInt("id");
 
-        mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
+        MvcResult storeMvcResult = mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("storeName", "TestStore")
                         .header("authorization", token))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONObject storeJson = new JSONObject(storeMvcResult.getResponse()
+                .getContentAsString());
+        storeId = storeJson.getInt("id");
     }
 
     @Test
@@ -59,7 +67,7 @@ public class T2StoreTests {
 
     @Test
     public void T3_Patch_Store_Name_Expect200() throws Exception {
-        mvc.perform(patch("/api/v1/store/{storeId}", 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch("/api/v1/store/{storeId}", storeId).contentType(MediaType.APPLICATION_JSON)
                         .queryParam("storeName", "RenamedStore")
                         .queryParam("password", "123456")
                         .header("authorization", token))
@@ -69,12 +77,12 @@ public class T2StoreTests {
 
     @Test
     public void T4_Delete_Store_Expect200() throws Exception {
-        mvc.perform(delete("/api/v1/store/{storeId}", 1).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(delete("/api/v1/store/{storeId}", storeId).contentType(MediaType.APPLICATION_JSON)
                         .queryParam("password", "123456")
                         .header("authorization", token))
                 .andExpect(status().isOk());
 
-        Optional<AdminUser> adminUserOptional = adminUserRepository.findById(1L);
+        Optional<AdminUser> adminUserOptional = adminUserRepository.findById((long) adminId);
 
         if (adminUserOptional.isEmpty()) {
             throw new Exception();

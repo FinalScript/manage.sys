@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class T1AdminUserTests {
+public class AdminUserTests {
     private static String token;
     @Autowired
     private MockMvc mvc;
