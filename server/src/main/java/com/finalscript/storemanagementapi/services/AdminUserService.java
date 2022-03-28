@@ -140,19 +140,19 @@ public class AdminUserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
         }
 
-        if (Objects.equals(userOptional.get().getName(), name)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be the same");
-        }
-
         if (name != null && name.length() > 0) {
+            if (Objects.equals(userOptional.get().getName(), name)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be the same");
+            }
+
             userOptional.get().setName(name);
         }
 
-        if (Objects.equals(userOptional.get().getEmail(), email)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email cannot be the same");
-        }
-
         if (email != null && email.length() > 0) {
+            if (Objects.equals(userOptional.get().getEmail(), email)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email cannot be the same");
+            }
+
             userOptional.get().setEmail(email);
         }
 

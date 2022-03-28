@@ -101,7 +101,6 @@ public class EmployeeService {
      * @param employeeId ID of employee
      */
     public void deleteEmployee(Long storeId, Long employeeId) {
-        // TODO
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
@@ -131,7 +130,6 @@ public class EmployeeService {
      * @return Updated employee  with new wage, status and starting date
      */
     public Employee updateEmployee(Long storeId, Long employeeId, Float wage, String status, String startingDate) {
-        // TODO
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
@@ -145,38 +143,42 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee #" + employeeId + " does not exist");
         }
 
-        //Checks if employee wage is equal to the previous employee wage amount
-        if (Objects.equals(employeeOptional.get().getWage(), wage)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wage cannot be the same");
-        }
-
         if (wage != null && wage > 0) {
+
+            //Checks if employee wage is equal to the previous employee wage amount
+            if (Objects.equals(employeeOptional.get().getWage(), wage)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wage cannot be the same");
+            }
+
             employeeOptional.get().setWage(wage);
         }
 
-        //Checks if employee status is equal to the previous employee status
-        if (Objects.equals(employeeOptional.get().getStatus(), status)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status cannot be the same");
-        }
-
         if (status != null && status.length() > 0) {
+
+            //Checks if employee status is equal to the previous employee status
+            if (Objects.equals(employeeOptional.get().getStatus(), status)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status cannot be the same");
+            }
+
             employeeOptional.get().setStatus(status);
         }
 
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = null;
-        try {
-            date = format.parse(startingDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        //Checks if employee Starting Date is equal to the previous employee Starting Date
-        if (Objects.equals(employeeOptional.get().getStartingDate(), date)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Starting Date cannot be the same");
-        }
+        if (startingDate != null) {
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            Date date;
 
-        if (date != null) {
+            try {
+                date = format.parse(startingDate);
+            } catch (ParseException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+
+            //Checks if employee Starting Date is equal to the previous employee Starting Date
+            if (Objects.equals(employeeOptional.get().getStartingDate(), date)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Starting Date cannot be the same");
+            }
+
             employeeOptional.get().setStartingDate(date);
         }
 

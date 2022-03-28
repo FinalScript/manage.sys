@@ -146,16 +146,14 @@ public class StoreService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password invalid");
         }
 
-        //Checks if store name is equal to the previous store name
-        if (Objects.equals(storeOptional.get().getName(), storeName)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store name cannot be the same");
-        }
-
         //Checks if store name isn't empty and sets the new store name
         if (storeName != null && storeName.length() > 0) {
+            //Checks if store name is equal to the previous store name
+            if (Objects.equals(storeOptional.get().getName(), storeName)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store name cannot be the same");
+            }
+
             storeOptional.get().setName(storeName);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store name cannot be empty");
         }
 
         return storeRepository.save(storeOptional.get());

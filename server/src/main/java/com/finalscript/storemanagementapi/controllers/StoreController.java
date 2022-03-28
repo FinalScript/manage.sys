@@ -3,8 +3,6 @@ package com.finalscript.storemanagementapi.controllers;
 import com.finalscript.storemanagementapi.models.Store;
 import com.finalscript.storemanagementapi.services.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +72,7 @@ public class StoreController {
      * @return Updated store with new store name
      */
     @PatchMapping(path = "{storeId}")
-    public Store updateStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam String storeName, @RequestParam String password) {
+    public Store updateStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam(required = false) String storeName, @RequestParam String password) {
         return storeService.updateStore((Long) httpServletRequest.getAttribute("adminId"), storeId, storeName, password);
     }
 }
