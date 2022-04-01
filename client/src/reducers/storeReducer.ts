@@ -1,4 +1,5 @@
-import { ADD_STORE, ADD_STORES, REMOVE_STORES } from '../constants/actions';
+import { Store } from 'redux';
+import { ADD_STORE, ADD_STORES, REMOVE_STORE, REMOVE_STORES } from '../constants/actions';
 
 const storeReducer = (state: any = { storeData: [] }, action: any) => {
     switch (action.type) {
@@ -12,6 +13,8 @@ const storeReducer = (state: any = { storeData: [] }, action: any) => {
             copy.storeData.push(action.payload);
 
             return { ...state, storeData: copy.storeData };
+        case REMOVE_STORE:
+            return {...state, storeData: state.storeData.filter((store:any) => store.id !== action.payload)};
         default:
             return state;
     }

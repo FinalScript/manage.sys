@@ -55,6 +55,18 @@ export const getStores = () => {
     });
 };
 
+interface DeleteStoreParams {
+    password: string;
+}
+
+export const deleteStore = (storeId: number, params: DeleteStoreParams) => {
+    return api({
+        method: 'DELETE',
+        url: `/api/v1/store/${storeId}`,
+        params,
+    });
+};
+
 export const getEmployees = (storeId: number) => {
     return api({
         method: 'GET',
