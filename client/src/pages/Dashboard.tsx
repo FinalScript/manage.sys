@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { DeleteStoreModal } from '../components/DeleteStoreModal';
 import { NewStoreModal } from '../components/NewStoreModal';
+import { UpdateStoreModal } from '../components/UpdateStoreModal';
 import { StoreDataState } from '../types';
 
 export const Dashboard = () => {
     const storeData = useSelector((state: StoreDataState) => state.storeReducer.storeData);
+    //const [modalHidden, setModalHidden] = useState({ newStore: true, deleteStore: true, updateStore: true })
     const [newStoreModalHidden, setNewStoreModalHidden] = useState(true);
     const [deleteStoreModalHidden, setDeleteStoreModalHidden] = useState(true);
     const [updateStoreModalHidden, setUpdateStoreModalHidden] = useState(true);
@@ -58,13 +60,18 @@ export const Dashboard = () => {
                                 </p>
 
                                 {/* Edit Store */}
-                                {/* <button onClick={toggleUpdateStoreModal} className='bg-blue-700 hover:bg-blue-800 rounded-lg w-12 cursor-pointer'>
+                                <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
+                                <button
+                                    onClick={() => {
+                                        setStoreId(store.id);
+                                        toggleUpdateStoreModal();
+                                    }}
+                                    className='bg-blue-700 hover:bg-blue-800 rounded-lg w-12 cursor-pointer'>
                                     Edit
-                                    {console.log("Edit")}
-                                </button> */}
+                                </button>
 
-                                <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
                                 {/* Delete Store */}
+                                <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
                                 <button
                                     onClick={() => {
                                         setStoreId(store.id);
