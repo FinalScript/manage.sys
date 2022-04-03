@@ -1,16 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { DeleteStoreModal } from '../components/DeleteStoreModal';
 import { NewStoreModal } from '../components/NewStoreModal';
+import { UpdateStoreModal } from '../components/UpdateStoreModal';
 import { StoreDataState } from '../types';
 
 export const Dashboard = () => {
     const storeData = useSelector((state: StoreDataState) => state.storeReducer.storeData);
+    //const [modalHidden, setModalHidden] = useState({ newStore: true, deleteStore: true, updateStore: true })
     const [newStoreModalHidden, setNewStoreModalHidden] = useState(true);
+    const [deleteStoreModalHidden, setDeleteStoreModalHidden] = useState(true);
+    const [updateStoreModalHidden, setUpdateStoreModalHidden] = useState(true);
+    const [storeId, setStoreId] = useState(0);
     const navigate = useNavigate();
 
     const toggleNewStoreModal = () => {
         setNewStoreModalHidden((prevState) => !prevState);
+    };
+
+    const toggleDeleteStoreModal = () => {
+        setDeleteStoreModalHidden((prevState) => !prevState);
+    };
+
+    const toggleUpdateStoreModal = () => {
+        setUpdateStoreModalHidden((prevState) => !prevState);
     };
 
     useEffect(() => {
@@ -35,14 +49,37 @@ export const Dashboard = () => {
                 <div>
                     {storeData.map((store) => {
                         return (
-                            <div
-                                onClick={() => {
-                                    navigate('store/' + store.id + '/', { state: { store } });
-                                }}
-                                key={store.id}
-                                className='flex space-x-2 mb-3 bg-gray-800 rounded-xl cursor-pointer'>
+                            <div key={store.id} className='flex space-x-2 mb-3 bg-gray-800 rounded-xl cursor-pointer'>
                                 <p className='bg-gray-700 rounded-l-xl py-2 w-12 text-center'>{store.id}</p>
-                                <p className='rounded-r-xl p-2'>{store.name}</p>
+                                <p
+                                    onClick={() => {
+                                        navigate('store/' + store.id + '/', { state: { store } });
+                                    }}
+                                    className='rounded-r-xl p-2 w-full'>
+                                    {store.name}
+                                </p>
+
+                                {/* Edit Store */}
+                                <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
+                                <button
+                                    onClick={() => {
+                                        setStoreId(store.id);
+                                        toggleUpdateStoreModal();
+                                    }}
+                                    className='bg-blue-700 hover:bg-blue-800 rounded-lg w-12 cursor-pointer'>
+                                    Edit
+                                </button>
+
+                                {/* Delete Store */}
+                                <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
+                                <button
+                                    onClick={() => {
+                                        setStoreId(store.id);
+                                        toggleDeleteStoreModal();
+                                    }}
+                                    className='bg-red-700 hover:bg-red-800 rounded-lg w-16 cursor-pointer'>
+                                    Delete
+                                </button>
                             </div>
                         );
                     })}
