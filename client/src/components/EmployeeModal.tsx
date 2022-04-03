@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { createNewEmployee } from '../api';
 
 interface Props {
@@ -36,7 +35,7 @@ export const EmployeeModal = ({ hidden, toggle, setEmployeeData, storeId }: Prop
             setError('Please enter a name');
         }
     };
-
+    
     return (
         <div
             hidden={hidden}

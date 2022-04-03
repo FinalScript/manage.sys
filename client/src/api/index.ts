@@ -66,10 +66,34 @@ interface EmployeeParams {
     name: string;
 }
 
+interface UpdateEmployeeParams {
+    wage: number;
+    status: string;
+    startingDate: string;
+
+}
+
 export const createNewEmployee = (storeId: number, params: EmployeeParams) => {
     return api({
         method: 'POST',
         url: `/api/v1/store/${storeId}/employee`,
+        params,
+    });
+};
+
+
+export const deleteEmployees = (storeId: number, employeeId: number) => {
+    return api({
+        method: 'DELETE',
+        url: `/api/v1/store/${storeId}/employee/${employeeId}`,
+    });
+};
+
+
+export const UpdateEmployees = (storeId: number, employeeId: number, params: UpdateEmployeeParams) => {
+    return api({
+        method: 'PATCH',
+        url: `/api/v1/store/${storeId}/employee/${employeeId}`,
         params,
     });
 };

@@ -165,7 +165,7 @@ public class EmployeeService {
 
 
         if (startingDate != null) {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
 
             try {
