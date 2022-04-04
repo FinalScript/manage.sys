@@ -40,7 +40,7 @@ public class EmployeeService {
      * @return List of employees at a given store
      */
     public List<Employee> getEmployees(Long storeId) {
-        List<Employee> employeeList = employeeRepository.findEmployeesByStore_Id(storeId);
+        List<Employee> employeeList = employeeRepository.findEmployeesByStore_IdOrderById(storeId);
 
         // Checks if the there is an existing store with the given store ID
         if (employeeList.isEmpty()) {

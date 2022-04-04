@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    List<Store> findAllByAdminUser_Id(Long adminId);
+    List<Store> findAllByAdminUser_IdOrderById(Long adminId);
     Optional<Store> findByAdminUser_IdAndId(Long adminId, Long storeId);
 }

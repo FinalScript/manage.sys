@@ -34,6 +34,8 @@ export const Dashboard = () => {
     return (
         <div className='min-h-screen h-full bg-gray-800 text-white pt-20 pb-20 flex flex-col items-center'>
             <NewStoreModal hidden={newStoreModalHidden} toggle={toggleNewStoreModal} />
+            <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
+            <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
             <div className='bg-gray-900 container mt-14 p-7 rounded-xl'>
                 <div>
                     <div className='flex justify-between'>
@@ -58,28 +60,24 @@ export const Dashboard = () => {
                                     className='rounded-r-xl p-2 w-full'>
                                     {store.name}
                                 </p>
-
-                                {/* Edit Store */}
-                                <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
-                                <button
-                                    onClick={() => {
-                                        setStoreId(store.id);
-                                        toggleUpdateStoreModal();
-                                    }}
-                                    className='bg-blue-700 hover:bg-blue-800 rounded-lg w-12 cursor-pointer'>
-                                    Edit
-                                </button>
-
-                                {/* Delete Store */}
-                                <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
-                                <button
-                                    onClick={() => {
-                                        setStoreId(store.id);
-                                        toggleDeleteStoreModal();
-                                    }}
-                                    className='bg-red-700 hover:bg-red-800 rounded-lg w-16 cursor-pointer'>
-                                    Delete
-                                </button>
+                                <div className='flex items-center space-x-1 ml-auto'>
+                                    <button
+                                        onClick={() => {
+                                            setStoreId(store.id);
+                                            toggleUpdateStoreModal();
+                                        }}
+                                        className='bg-green-600 hover:bg-green-800 focus:ring-green-800 text-white text-center p-1 px-3 h-full rounded-l-xl'>
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setStoreId(store.id);
+                                            toggleDeleteStoreModal();
+                                        }}
+                                        className='bg-red-500 hover:bg-red-800 focus:ring-red-800 text-white text-center p-1 px-3 h-full rounded-r-xl'>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         );
                     })}

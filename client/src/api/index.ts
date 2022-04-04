@@ -115,7 +115,7 @@ export const deleteEmployees = (storeId: number, employeeId: number) => {
 };
 
 
-export const UpdateEmployees = (storeId: number, employeeId: number, params: UpdateEmployeeParams) => {
+export const updateEmployees = (storeId: number, employeeId: number, params: UpdateEmployeeParams) => {
     return api({
         method: 'PATCH',
         url: `/api/v1/store/${storeId}/employee/${employeeId}`,

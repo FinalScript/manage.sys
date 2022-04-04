@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    List<Employee> findEmployeesByStore_Id(Long storeId);
+    List<Employee> findEmployeesByStore_IdOrderById(Long storeId);
     Employee findEmployeeByStore_IdAndId(Long storeId, Long employeeId);
 }

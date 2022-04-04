@@ -39,7 +39,7 @@ public class StoreService {
      * @return List of stores at given admin ID
      */
     public List<Store> getStores(Long adminId) {
-        List<Store> storesList = storeRepository.findAllByAdminUser_Id(adminId);
+        List<Store> storesList = storeRepository.findAllByAdminUser_IdOrderById(adminId);
 
         if (storesList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No stores connected to account #" + adminId);

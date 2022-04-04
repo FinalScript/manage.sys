@@ -6,14 +6,13 @@ interface Props {
     setEmployeeData: Function;
     storeId: number | undefined;
     employeeId: number | undefined;
-    employeeData: any;
 }
 
-export const DeleteEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, employeeId, employeeData }: Props) => {
+export const DeleteEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, employeeId }: Props) => {
     const deleteConfirmed = () => {
         if (storeId && employeeId) {
             deleteEmployees(storeId, employeeId).then(() => {
-                setEmployeeData(employeeData.filter((data: any) => data.id !== employeeId));
+                setEmployeeData((prevstate: any) => prevstate.filter((data: any) => data.id !== employeeId));
 
                 toggle();
             });

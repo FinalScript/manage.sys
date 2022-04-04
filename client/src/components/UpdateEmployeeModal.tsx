@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { UpdateEmployees } from '../api';
+import { updateEmployees } from '../api';
+import { EmployeeData } from '../types';
 
 interface Props {
     hidden: boolean;
@@ -7,27 +8,45 @@ interface Props {
     setEmployeeData: Function;
     storeId: number | undefined;
     employeeId: number | undefined;
-    employeeData: any;
 }
 
-export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, employeeId, employeeData }: Props) => {
+export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, employeeId }: Props) => {
     const [form, setForm] = useState({ employeeWage: 0, employeeStatus: '', employeeStartingDate: '' });
     const [error, setError] = useState('');
 
     useEffect(() => {
-        setForm((prevState) => {
-            return { ...prevState, employeeWage: 0 };
-        });
+        setForm({ employeeWage: 0, employeeStatus: '', employeeStartingDate: '' });
     }, [hidden]);
 
     const submit = () => {
         setError('');
 
         if (storeId && employeeId) {
-            UpdateEmployees(storeId, employeeId, { wage: form.employeeWage, status: form.employeeStatus, startingDate: form.employeeStartingDate })
+            const params: any = {};
+
+            if (form.employeeWage) {
+                params['wage'] = form.employeeWage;
+            }
+
+            if (form.employeeStatus) {
+                params['status'] = form.employeeStatus;
+            }
+
+            if (form.employeeStartingDate) {
+                params['startingDate'] = form.employeeStartingDate;
+            }
+
+            updateEmployees(storeId, employeeId, params)
                 .then((res) => {
-                    setEmployeeData(employeeData.filter((data: any) => data.id !== employeeId));
-                    setEmployeeData((prevState: any) => [...prevState, res.data]);
+                    setEmployeeData((prevState: EmployeeData[]) => {
+                        const index = prevState.findIndex((emp: EmployeeData) => emp.id === employeeId);
+
+                        const copy: EmployeeData[] = [...prevState];
+
+                        copy[index] = res.data;
+
+                        return copy;
+                    });
                     toggle();
                 })
                 .catch((err) => {
