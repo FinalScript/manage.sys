@@ -55,6 +55,31 @@ export const getStores = () => {
     });
 };
 
+interface DeleteStoreParams {
+    password: string;
+}
+
+export const deleteStore = (storeId: number, params: DeleteStoreParams) => {
+    return api({
+        method: 'DELETE',
+        url: `/api/v1/store/${storeId}`,
+        params,
+    });
+};
+
+interface UpdateStoreParams {
+    password: string;
+    storeName: string;
+}
+
+export const updateStore = (storeId: number, params: UpdateStoreParams) => {
+    return api({
+        method: 'PATCH',
+        url: `/api/v1/store/${storeId}`,
+        params,
+    });
+};
+
 export const getEmployees = (storeId: number) => {
     return api({
         method: 'GET',
@@ -66,10 +91,34 @@ interface EmployeeParams {
     name: string;
 }
 
+interface UpdateEmployeeParams {
+    wage: number;
+    status: string;
+    startingDate: string;
+
+}
+
 export const createNewEmployee = (storeId: number, params: EmployeeParams) => {
     return api({
         method: 'POST',
         url: `/api/v1/store/${storeId}/employee`,
+        params,
+    });
+};
+
+
+export const deleteEmployees = (storeId: number, employeeId: number) => {
+    return api({
+        method: 'DELETE',
+        url: `/api/v1/store/${storeId}/employee/${employeeId}`,
+    });
+};
+
+
+export const updateEmployees = (storeId: number, employeeId: number, params: UpdateEmployeeParams) => {
+    return api({
+        method: 'PATCH',
+        url: `/api/v1/store/${storeId}/employee/${employeeId}`,
         params,
     });
 };

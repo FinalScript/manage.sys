@@ -40,7 +40,7 @@ public class EmployeeService {
      * @return List of employees at a given store
      */
     public List<Employee> getEmployees(Long storeId) {
-        List<Employee> employeeList = employeeRepository.findEmployeesByStore_Id(storeId);
+        List<Employee> employeeList = employeeRepository.findEmployeesByStore_IdOrderById(storeId);
 
         // Checks if the there is an existing store with the given store ID
         if (employeeList.isEmpty()) {
@@ -165,7 +165,7 @@ public class EmployeeService {
 
 
         if (startingDate != null) {
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
 
             try {
