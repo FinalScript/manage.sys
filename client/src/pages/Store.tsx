@@ -79,7 +79,7 @@ export const Store = () => {
                         <p className='bg-gray-700 rounded-l-xl py-2 w-14 text-center'>ID</p>
                         <p className='rounded-r-xl p-2 w-56 text-center'>Name</p>
                         <p className='bg-gray-700 p-2 w-28 text-center'>Wage</p>
-                        <p className='rounded-r-xl p-2 w-20 text-center'>Status</p>
+                        <p className='rounded-r-xl p-2 w-32 text-center'>Status</p>
                         <p className='bg-gray-700 p-2 w-44 text-center'>Starting Date</p>
                     </div>
 
@@ -90,18 +90,18 @@ export const Store = () => {
                                     <p className='bg-gray-700 rounded-l-xl py-2 w-14 text-center'>{employee.id}</p>
                                     <p className='rounded-r-xl p-2 w-56 text-center'>{employee.name}</p>
                                     <p className='bg-gray-700 p-2 w-28 text-center'>{employee.wage}</p>
-                                    <p className='rounded-r-xl p-2 w-20 text-center'>{employee.status}</p>
+                                    <p className='rounded-r-xl p-2 w-32 text-center'>{employee.status}</p>
                                     <p className='bg-gray-700 p-2 w-44 text-center '>
                                         {employee.startingDate && new Date(employee.startingDate).toDateString()}
                                     </p>
                                 </div>
-                                <div className='flex items-center space-x-1 ml-auto'>
+                                <div className='flex items-center p-1 space-x-1 ml-auto'>
                                     <button
                                         onClick={() => {
                                             toggleUpdateEmployeeModal();
                                             setEmployeeId(employee.id);
                                         }}
-                                        className='bg-green-600 hover:bg-green-800 focus:ring-green-800 text-white text-center p-1 px-3 h-full rounded-l-xl'>
+                                        className='bg-green-600 hover:bg-green-800text-white text-center p-1 px-3 h-full rounded-l-xl'>
                                         Edit
                                     </button>
                                     <button
@@ -109,7 +109,7 @@ export const Store = () => {
                                             toggleDeleteEmployeeModal();
                                             setEmployeeId(employee.id);
                                         }}
-                                        className='bg-red-500 hover:bg-red-800 focus:ring-red-800 text-white text-center p-1 px-3 h-full rounded-r-xl'>
+                                        className='bg-red-500 hover:bg-red-800 text-white text-center p-1 px-3 h-full rounded-r-xl'>
                                         Delete
                                     </button>
                                 </div>
