@@ -10,10 +10,12 @@ interface Props {
     employeeId: number | undefined;
 }
 
+const employeeStatuses = ['Hired', 'In Training', 'Interviews', 'Dismissed', 'Resigned', 'On Leave'];
+
 export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, employeeId }: Props) => {
     const [form, setForm] = useState({ employeeWage: 0, employeeStatus: '', employeeStartingDate: '' });
     const [error, setError] = useState('');
-
+    const [listboxHidden, setListboxHidden] = useState(true);
     useEffect(() => {
         setForm({ employeeWage: 0, employeeStatus: '', employeeStartingDate: '' });
     }, [hidden]);
@@ -87,6 +89,7 @@ export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, 
                                     id='employeeWage'
                                     value={form.employeeWage}
                                     onChange={(e) => {
+                                        e.stopPropagation();
                                         setForm((prevState) => {
                                             return { ...prevState, employeeWage: e.target.valueAsNumber };
                                         });
@@ -99,19 +102,35 @@ export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, 
                         <label className='flex relative items-center select-none pt-5'>
                             <span className='font-medium text-gray-200 mr-6 whitespace-nowrap'>Employee Status </span>
                             <div className='relative w-3/4 flex items-center'>
-                                <input
-                                    type='string'
-                                    name='employeeStatus'
-                                    id='employeeStatus'
-                                    value={form.employeeStatus}
-                                    onChange={(e) => {
-                                        setForm((prevState) => {
-                                            return { ...prevState, employeeStatus: e.target.value };
-                                        });
-                                    }}
-                                    maxLength={200}
-                                    className='h-8 w-full border-none outline-none bg-gray-800 text-gray-200 p-2 text-center sm:text-sm rounded-xl'
-                                />
+                                <div className='relative mt-1 w-full'>
+                                    <div
+                                        onClick={() => {
+                                            setListboxHidden((prevState) => !prevState);
+                                        }}
+                                        className='h-8 w-full border-none outline-none bg-gray-800 text-gray-200 p-2 text-center sm:text-sm rounded-xl'>
+                                        {form.employeeStatus}
+                                    </div>
+
+                                    <div
+                                        hidden={listboxHidden}
+                                        className={
+                                            'absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-gray-800  rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'
+                                        }>
+                                        {employeeStatuses.map((status) => (
+                                            <div
+                                                key={status}
+                                                onClick={() => {
+                                                    setForm((prevState) => {
+                                                        return { ...prevState, employeeStatus: status };
+                                                    });
+                                                    setListboxHidden((prevState) => !prevState);
+                                                }}
+                                                className={`cursor-pointer select-none relative py-2 pl-10 pr-4 text-gray-100 bg-gray-700'`}>
+                                                {status}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </label>
                         <label className='flex relative items-center select-none pt-5'>
@@ -123,6 +142,7 @@ export const UpdateEmployeeModal = ({ hidden, toggle, setEmployeeData, storeId, 
                                     id='employeeStartingDate'
                                     value={form.employeeStartingDate}
                                     onChange={(e) => {
+                                        e.stopPropagation();
                                         setForm((prevState) => {
                                             return { ...prevState, employeeStartingDate: e.target.value };
                                         });
