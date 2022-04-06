@@ -10,6 +10,7 @@ import { ProtectedComponent } from './components/ProtectedComponent';
 import { useSafeLocalStorage } from './hooks/useSafeLocalStorage';
 import { AuthDataState } from './types';
 import { Store } from './pages/Store';
+import { Home } from './pages/Home';
 
 function App() {
     const authData = useSelector((state: AuthDataState) => state.authReducer.authData);
@@ -48,7 +49,7 @@ function App() {
             <Nav />
 
             <Routes location={location} key={location.pathname}>
-                <Route path='/' element={<div className='h-screen bg-gray-800 text-white pt-20'>Home Page</div>} />
+                <Route path='/' element={<Home />} />
                 <Route path='/auth' element={<Auth />} />
                 <Route path='/dashboard' element={<ProtectedComponent component={<Dashboard />} />} />
                 <Route path='/dashboard/store/:storeId/' element={<ProtectedComponent component={<Store />} />} />

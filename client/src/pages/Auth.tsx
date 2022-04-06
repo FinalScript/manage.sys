@@ -13,6 +13,10 @@ export const Auth = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+      document.title = "Auth | Manage.sys"
+    }, [])
+
+    useEffect(() => {
         if (form.password !== form.confirmPassword && isRegistering) {
             setError('Passwords do not match');
         } else {

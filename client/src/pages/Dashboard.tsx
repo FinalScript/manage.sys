@@ -28,7 +28,7 @@ export const Dashboard = () => {
     };
 
     useEffect(() => {
-        document.title = 'Dashboard';
+        document.title = 'Dashboard | Manage.sys';
     }, []);
 
     return (

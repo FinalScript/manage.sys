@@ -35,7 +35,7 @@ export const Store = () => {
 
     useEffect(() => {
         if (store && store.id) {
-            document.title = store.name;
+            document.title = store.name + " | Manage.sys";
 
             getEmployees(store.id)
                 .then((res) => {
