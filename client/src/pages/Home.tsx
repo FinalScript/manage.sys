@@ -33,8 +33,8 @@ const teamData = [
 
 export const Home = () => {
     useEffect(() => {
-      document.title = "Home | Manage.sys"
-    }, [])
+        document.title = 'Home | Manage.sys';
+    }, []);
 
     return (
         <div className='h-full bg-gray-800 text-white'>
@@ -54,7 +54,7 @@ export const Home = () => {
                             mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.
                         </p>
                         <div className='flex justify-center'>
-                            <button className='inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg'>
+                            <button className='inline-flex text-white bg-pink-600 border-0 py-2 px-6 focus:outline-none hover:bg-pink-800 rounded text-lg'>
                                 Button
                             </button>
                             <button className='ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg'>
@@ -78,10 +78,13 @@ export const Home = () => {
                                 <div key={member.name} className='p-4 lg:w-1/4 md:w-1/2'>
                                     <div className='h-full flex flex-col items-center text-center'>
                                         <img alt='team' className='flex-shrink-0 rounded-lg w-full h-72 object-cover object-center mb-4' src={member.img} />
-                                        <div className='w-full'>
+                                        <div className='w-full flex flex-col items-center'>
                                             <h2 className='title-font font-semibold text-lg text-white'>{member.name}</h2>
                                             <h3 className='text-pink-500 mb-2'>{member.title}</h3>
                                             <p className='mb-4 text-left'>{member.description}</p>
+                                            <div className='pb-4 pt-1 w-24'>
+                                                <div className='w-full border-t border-gray-300'></div>
+                                            </div>
                                             <span className='inline-flex'>
                                                 <a href={member.linkedIn} target='_blank' rel='noopener noreferrer' className='text-gray-100 cursor-pointer'>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' width='26' height='26' viewBox='0 0 24 24'>

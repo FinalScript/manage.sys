@@ -32,7 +32,7 @@ export const Nav = () => {
                         </Link>
                         <button
                             onClick={logout}
-                            className='inline-flex items-center bg-teal-300 text-black border-0 py-1 px-3 focus:outline-none hover:bg-teal-500 rounded text-base mt-4 md:mt-0'>
+                            className='inline-flex items-center bg-pink-600 text-white border-0 py-1 px-3 focus:outline-none hover:bg-pink-800 rounded text-base mt-4 md:mt-0'>
                             Logout
                         </button>
                     </>
@@ -40,7 +40,7 @@ export const Nav = () => {
                     <>
                         <Link
                             to={'/auth'}
-                            className='inline-flex items-center bg-teal-300 text-black border-0 py-1 px-3 focus:outline-none hover:bg-teal-500 rounded text-base mt-4 md:mt-0'>
+                            className='inline-flex items-center bg-pink-600 text-white border-0 py-1 px-3 focus:outline-none hover:bg-pink-800 rounded text-base mt-4 md:mt-0'>
                             Sign Up
                             <svg
                                 fill='none'

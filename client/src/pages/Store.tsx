@@ -110,16 +110,14 @@ export const Store = () => {
                             New Employee
                         </button>
                     </div>
-                    <div className='py-4'>
+                    <div className='pt-4'>
                         <div className='w-full border-t border-gray-300'></div>
                     </div>
                 </div>
                 <div>
                     <div className='relative overflow-x-auto rounded-lg'>
                         <div className='py-4 flex items-center'>
-                            <label htmlFor='table-search' className='sr-only'>
-                                Search
-                            </label>
+                            
                             <div className='relative mt-1'>
                                 <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                                     <svg
