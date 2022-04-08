@@ -51,7 +51,7 @@ export const Dashboard = () => {
             case 'name':
                 copy.sort((a, b) => (!sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
                 break;
-            
+
             default:
                 break;
         }
@@ -76,7 +76,7 @@ export const Dashboard = () => {
                             New Store
                         </button>
                     </div>
-                    <div className='py-4'>
+                    <div className='pt-4'>
                         <div className='w-full border-t border-gray-300'></div>
                     </div>
                 </div>
@@ -168,8 +168,7 @@ export const Dashboard = () => {
                                                 } else {
                                                     setSortValue('id');
                                                 }
-                                            }}
-                                        >
+                                            }}>
                                             ID
                                         </th>
                                         <th
@@ -181,8 +180,7 @@ export const Dashboard = () => {
                                                 } else {
                                                     setSortValue('name');
                                                 }
-                                            }}
-                                        >
+                                            }}>
                                             Name
                                         </th>
 

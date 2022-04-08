@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthDataState } from '../types/index';
 import { LOGOUT } from '../constants/actions';
 import logoImg from '../assets/images/logo.png';
+import ToggleDarkMode from './ToggleDarkMode';
 
 export const Nav = () => {
     const authData = useSelector((state: AuthDataState) => state.authReducer.authData);
@@ -25,6 +26,9 @@ export const Nav = () => {
                     <span className='ml-3 text-3xl font-architects-daughter'>Manage.sys</span>
                 </Link>
                 <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'></nav>
+                <div className='mr-6'>
+                    <ToggleDarkMode />
+                </div>
                 {authData ? (
                     <>
                         <Link to={'/dashboard'} className='mr-6 hover:text-white'>
