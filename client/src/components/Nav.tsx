@@ -23,7 +23,7 @@ export const Nav = () => {
                     <div className='relative w-16 flex justify-center items-center'>
                         <img className='object-contain absolute' src={logoImg} alt='logo' />
                     </div>
-                    <span className='ml-3 text-3xl font-architects-daughter'>Manage.sys</span>
+                    <span className='ml-3 text-3xl app-title font-bold'>MANAGE.sys</span>
                 </Link>
                 <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'></nav>
                 <div className='mr-6'>

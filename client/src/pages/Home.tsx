@@ -44,10 +44,9 @@ export const Home = () => {
                         <img className='object-cover object-center rounded' alt='hero' src={heroSVG} />
                     </div>
                     <div className='lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center'>
-                        <h1 className='title-font sm:text-4xl text-3xl mb-4 font-medium text-white'>
-                            Before they sold out
-                            <br className='hidden lg:inline-block' />
-                            readymade gluten
+                        <h1 className='mb-5 title-font sm:text-5xl text-3xl font-medium text-white'>
+                            The only management system,
+                            <span className='mt-3 block'>you need.</span>
                         </h1>
                         <p className='mb-8 leading-relaxed'>
                             Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park
@@ -78,10 +77,10 @@ export const Home = () => {
                                 <div key={member.name} className='p-4 lg:w-1/4 md:w-1/2'>
                                     <div className='h-full flex flex-col items-center text-center'>
                                         <img alt='team' className='flex-shrink-0 rounded-lg w-full h-72 object-cover object-center mb-4' src={member.img} />
-                                        <div className='w-full flex flex-col items-center'>
+                                        <div className='w-full flex flex-col items-center justify-between h-72'>
                                             <h2 className='title-font font-semibold text-lg text-white'>{member.name}</h2>
-                                            <h3 className='text-pink-500 mb-2'>{member.title}</h3>
-                                            <p className='mb-4 text-left'>{member.description}</p>
+                                            <h3 className='text-pink-500 mb-2 flex items-center'>{member.title}</h3>
+                                            <p className='mb-4 text-left flex items-center'>{member.description}</p>
                                             <div className='pb-4 pt-1 w-24'>
                                                 <div className='w-full border-t border-gray-300'></div>
                                             </div>

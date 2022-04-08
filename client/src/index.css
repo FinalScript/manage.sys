@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;700&display=swap');
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -16,8 +16,8 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
-.font-architects-daughter {
-  font-family: 'Architects Daughter', cursive;
+.app-title {
+  font-family: 'Dosis', sans-serif;
 }
 
 * {
