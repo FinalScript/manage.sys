@@ -64,11 +64,11 @@ export const Dashboard = () => {
     }, []);
 
     return (
-        <div className='min-h-screen h-full bg-gray-800 text-white pt-20 pb-20 flex flex-col items-center'>
+        <div className='min-h-screen h-full bg-white dark:bg-gray-800 text-white pt-20 pb-20 flex flex-col items-center'>
             <NewStoreModal hidden={newStoreModalHidden} toggle={toggleNewStoreModal} />
             <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
             <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
-            <div className='bg-gray-900 container mt-14 p-7 rounded-xl'>
+            <div className='bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white container mt-14 p-7 rounded-xl'>
                 <div>
                     <div className='flex justify-between'>
                         <h1 className='text-3xl'>My Stores</h1>
@@ -110,9 +110,9 @@ export const Dashboard = () => {
                             {sortValue && (
                                 <div className='ml-10 h-fit text-xs flex justify-center items-center rounded-lg'>
                                     <div className='flex cursor-pointer select-none' onClick={() => setSortAsc((prevState) => !prevState)}>
-                                        <p className='bg-gray-800 h-full rounded-l-lg flex items-center px-4 py-2'>Sorting by</p>
-                                        <p className='bg-gray-700 h-full flex items-center pl-4 pr-3 py-2'>{sortValue.toUpperCase()}</p>
-                                        <p className='bg-gray-700 text-gray-300 rounded-r-lg h-full flex items-center pr-3 pl-1 py-2'>
+                                        <p className='bg-gray-300 dark:bg-gray-800 h-full rounded-l-lg flex items-center px-4 py-2'>Sorting by</p>
+                                        <p className='bg-gray-200 dark:bg-gray-700 h-full flex items-center pl-4 pr-3 py-2'>{sortValue.toUpperCase()}</p>
+                                        <p className='bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-r-lg h-full flex items-center pr-3 pl-1 py-2'>
                                             <div className='h-4'>
                                                 {sortAsc ? (
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' width='100%' height='100%' viewBox='0 0 24 24'>
@@ -126,7 +126,7 @@ export const Dashboard = () => {
                                             </div>
                                         </p>
                                     </div>
-                                    <p className='ml-5 bg-gray-800 h-full rounded-lg flex items-center px-3 py-2 cursor-pointer' onClick={resetSort}>
+                                    <p className='ml-5 bg-gray-300 dark:bg-gray-800 h-full rounded-lg flex items-center px-3 py-2 cursor-pointer' onClick={resetSort}>
                                         <div className='h-4 text-red-600'>
                                             <svg
                                                 fill='currentColor'

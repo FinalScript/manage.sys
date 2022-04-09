@@ -17,13 +17,13 @@ export const Nav = () => {
     };
 
     return (
-        <header className='text-gray-400 bg-gray-900 body-font fixed w-full'>
+        <header className='text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-900 body-font fixed w-full'>
             <div className='container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center'>
                 <Link to={'/'} className='flex title-font font-medium items-center text-white mb-4 md:mb-0'>
                     <div className='relative w-16 flex justify-center items-center'>
                         <img className='object-contain absolute' src={logoImg} alt='logo' />
                     </div>
-                    <span className='ml-3 text-3xl app-title font-bold'>MANAGE.sys</span>
+                    <span className='ml-3 text-3xl app-title font-bold text-gray-900 dark:text-gray-100'>MANAGE.sys</span>
                 </Link>
                 <nav className='md:ml-auto flex flex-wrap items-center text-base justify-center'></nav>
                 <div className='mr-6'>
@@ -31,7 +31,7 @@ export const Nav = () => {
                 </div>
                 {authData ? (
                     <>
-                        <Link to={'/dashboard'} className='mr-6 hover:text-white'>
+                        <Link to={'/dashboard'} className='mr-6 hover:text-gray-900 dark:hover:text-white'>
                             Dashboard
                         </Link>
                         <button

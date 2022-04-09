@@ -55,14 +55,14 @@ export const Auth = () => {
     };
 
     return (
-        <div className='bg-gray-800 text-white h-screen flex justify-center items-center'>
+        <div className='bg-white dark:bg-gray-800 text-white h-screen flex justify-center items-center'>
             <div className='w-authContainer bg-gray-100 rounded-lg p-6 flex flex-col mt-10 md:mt-0'>
                 {authData ? (
                     <div className='flex flex-col items-center space-y-4'>
                         <h2 className='text-gray-600 text-2xl font-normal title-font text-center'>You're logged in!</h2>
                         <Link
                             to={'/dashboard'}
-                            className='inline-flex items-center w-fit bg-pink-500 text-gray-900 border-0 py-1 px-3 focus:outline-none hover:bg-pink-600 rounded text-base md:mt-0'>
+                            className='inline-flex items-center w-fit bg-pink-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-pink-600 rounded text-base md:mt-0'>
                             View Dashboard
                         </Link>
                     </div>
@@ -124,14 +124,14 @@ export const Auth = () => {
                             <p className='text-red-500 text-center text-sm'>{error}</p>
                         </div>
                         <button
-                            className='text-white bg-indigo-500 border-0 py-2 px-8 mt-5 focus:outline-none hover:bg-indigo-600 rounded text-lg'
+                            className='text-white bg-pink-500 border-0 py-2 px-8 mt-5 focus:outline-none hover:bg-pink-600 rounded text-lg'
                             onClick={submitForm}>
                             {isRegistering ? 'Sign Up' : 'Login'}
                         </button>
                         <div className='text-gray-900 pt-5 text-center cursor-pointer select-none' onClick={switchRegistrationMode}>
                             <p>
                                 {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
-                                <span className='text-indigo-500 font-semibold'>{isRegistering ? 'Login' : 'Register'}</span>
+                                <span className='text-pink-500 font-semibold'>{isRegistering ? 'Login' : 'Register'}</span>
                             </p>
                         </div>
                     </>
