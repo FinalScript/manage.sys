@@ -5,6 +5,7 @@ import { DeleteStoreModal } from '../components/DeleteStoreModal';
 import { NewStoreModal } from '../components/NewStoreModal';
 import { UpdateStoreModal } from '../components/UpdateStoreModal';
 import { StoreDataState } from '../types';
+import { Transition } from '@headlessui/react';
 
 export const Dashboard = () => {
     const storeData = useSelector((state: StoreDataState) => state.storeReducer.storeData);
@@ -68,7 +69,17 @@ export const Dashboard = () => {
             <NewStoreModal hidden={newStoreModalHidden} toggle={toggleNewStoreModal} />
             <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
             <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
-            <div className='bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white container mt-14 p-7 rounded-xl'>
+            <Transition
+                appear={true}
+                show={true}
+                enter='transition-opacity duration-1000'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='transition-opacity duration-150'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
+                className={'transition-all container mt-14'}>
+            <div className='bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white container p-7 rounded-xl'>
                 <div>
                     <div className='flex justify-between'>
                         <h1 className='text-3xl'>My Stores</h1>
@@ -145,7 +156,7 @@ export const Dashboard = () => {
                         </div>
                         <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
                             <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-                                <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+                                <thead className='text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400'>
                                     <tr>
                                         {/* <th scope='col' className='p-4'>
                                             <div className='flex items-center'>
@@ -256,6 +267,7 @@ export const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            </Transition>
         </div>
     );
 };

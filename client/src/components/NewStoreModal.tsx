@@ -42,13 +42,18 @@ export const NewStoreModal = ({ hidden, toggle }: Props) => {
             hidden={hidden}
             className='overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-40 fixed z-50 justify-center items-center h-modal md:h-full md:inset-0'>
             <div className='relative px-4 flex flex-col justify-center mx-auto w-full max-w-lg h-full'>
-                <div className='relative rounded-lg shadow-xl mb-16 bg-slate-900 p-5 flex flex-col space-y-4'>
+                <div className='relative rounded-lg shadow-xl mb-16 bg-slate-100 dark:bg-slate-900 p-5 flex flex-col space-y-4'>
                     <div className='flex justify-between items-center p-2 pl-5 right-0'>
-                        <h1 className='font-medium text-white text-xl'>Create a new store</h1>
+                        <h1 className='font-medium text-gray-900 dark:text-white text-xl'>Create a new store</h1>
                         <button
-                            onClick={toggle}
+                            onClick={() => {
+                                toggle();
+                                if (error !== '') {
+                                    setError('');
+                                }
+                            }}
                             type='button'
-                            className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white'>
+                            className='text-gray-900 dark:text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white'>
                             <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
                                 <path
                                     fillRule='evenodd'
@@ -59,10 +64,10 @@ export const NewStoreModal = ({ hidden, toggle }: Props) => {
                     </div>
                     <div className='p-2 pl-5'>
                         <label className='flex relative items-center select-none'>
-                            <span className='font-medium text-gray-200 mr-3'>Store Name </span>
+                            <span className='font-medium text-gray-800 dark:text-gray-200 mr-3'>Store Name </span>
                             <div className='relative w-3/4 flex items-center'>
                                 <input
-                                    type='text'
+                                    type='String'
                                     name='storeName'
                                     id='storeName'
                                     value={form.storeName}
@@ -72,7 +77,7 @@ export const NewStoreModal = ({ hidden, toggle }: Props) => {
                                         });
                                     }}
                                     maxLength={200}
-                                    className='h-8 w-full border-none outline-none bg-gray-800 text-gray-200 p-2 text-center sm:text-sm rounded-xl'
+                                    className='h-8 w-full border-none outline-none bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-2 text-center sm:text-sm rounded-xl'
                                 />
                             </div>
                         </label>
