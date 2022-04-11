@@ -1,13 +1,12 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {
-      width: {
-        "authContainer" : "430px"
-      }
+    content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    darkMode: 'class',
+    theme: {
+        extend: {
+            width: {
+                authContainer: '430px',
+            },
+        },
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+};

@@ -1,4 +1,4 @@
-# Store Management System
+# Manage.sys
 
 ## Overview
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+const api = axios.create({ baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080' });
 
 interface registerParams {
     username: String;
@@ -95,7 +95,6 @@ interface UpdateEmployeeParams {
     wage: number;
     status: string;
     startingDate: string;
-
 }
 
 export const createNewEmployee = (storeId: number, params: EmployeeParams) => {
@@ -106,14 +105,12 @@ export const createNewEmployee = (storeId: number, params: EmployeeParams) => {
     });
 };
 
-
 export const deleteEmployees = (storeId: number, employeeId: number) => {
     return api({
         method: 'DELETE',
         url: `/api/v1/store/${storeId}/employee/${employeeId}`,
     });
 };
-
 
 export const updateEmployees = (storeId: number, employeeId: number, params: UpdateEmployeeParams) => {
     return api({

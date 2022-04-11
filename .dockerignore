@@ -1,0 +1,12 @@
+**/node_modules
+node_modules
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.dev.yml
+docker-compose.test.yml
+**/.env
+.env
+**/.git
+.git
+/misc
