@@ -32,6 +32,7 @@ function App() {
         } else {
             dispatch({ type: LOGOUT });
         }
+
     }, []);
 
     useEffect(() => {

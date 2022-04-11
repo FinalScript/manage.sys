@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+    client:
+        build:
+            target: production
+            context: ./client/
+            dockerfile: Dockerfile
+        ports:
+            - '3000:3000'
+        restart: always
+        depends_on:
+            - restapi
+        environment:
+            - NODE_ENV=production
+            - REACT_APP_API_URL=${REACT_APP_API_URL}
+        networks:
+            - manage.sys-network
+    restapi:
+        build:
+            target: production
+            context: ./server/
+            dockerfile: Dockerfile
+        ports:
+            - '8080:8080'
+        environment:
+            - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+            - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+            - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+            - SPRING_JPA_DDL_MODE=${SPRING_JPA_DDL_MODE}
+            - JWT_SECRET=${JWT_SECRET}
+        networks:
+            - manage.sys-network
+networks:
+    manage.sys-network:
