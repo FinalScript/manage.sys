@@ -65,6 +65,7 @@ public class EmployeeController {
     /**
      * @param employeeId   ID of employee
      * @param storeId      ID of store
+     * @param name         name of employee
      * @param wage         wage of employee
      * @param status       status of employee
      * @param startingDate starting date of employee
@@ -72,9 +73,10 @@ public class EmployeeController {
      */
     @PatchMapping(path = "{employeeId}")
     public Employee updateEmployee(@PathVariable Long employeeId, @PathVariable Long storeId,
+                                   @RequestParam(required = false) String name,
                                    @RequestParam(required = false) Float wage,
                                    @RequestParam(required = false) String status,
                                    @RequestParam(required = false) String startingDate) {
-        return employeeService.updateEmployee(storeId, employeeId, wage, status, startingDate);
+        return employeeService.updateEmployee(storeId, employeeId, name,  wage, status, startingDate);
     }
 }

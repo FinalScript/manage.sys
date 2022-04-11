@@ -19,6 +19,10 @@ public class Store {
     private Long id;
     @Column(nullable = false, length = 200)
     private String name;
+    @Column( length = 100)
+    private String location;
+    @Column( length = 10)
+    private String currency;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "admin_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -70,8 +74,31 @@ public class Store {
         this.employees = employees;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
-        return "Store{" + "id=" + id + ", name='" + name + '\'' + ", adminUser=" + adminUser + '}';
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", currency='" + currency + '\'' +
+                ", adminUser=" + adminUser +
+                ", employees=" + employees +
+                '}';
     }
 }

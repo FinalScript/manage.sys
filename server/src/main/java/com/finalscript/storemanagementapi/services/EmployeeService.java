@@ -124,12 +124,13 @@ public class EmployeeService {
      *
      * @param storeId      ID of store
      * @param employeeId   ID of employee
+     * @param name         name of employee
      * @param wage         wage of employee
      * @param status       status of employee
      * @param startingDate starting date of employee
      * @return Updated employee  with new wage, status and starting date
      */
-    public Employee updateEmployee(Long storeId, Long employeeId, Float wage, String status, String startingDate) {
+    public Employee updateEmployee(Long storeId, Long employeeId, String name, Float wage, String status, String startingDate) {
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
@@ -161,6 +162,17 @@ public class EmployeeService {
             }
 
             employeeOptional.get().setStatus(status);
+        }
+
+
+        if (name != null && name.length() > 0) {
+
+            //Checks if employee name is equal to the previous employee name
+            if (Objects.equals(employeeOptional.get().getName(), name)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be the same");
+            }
+
+            employeeOptional.get().setName(name);
         }
 
 
