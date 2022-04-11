@@ -8,11 +8,11 @@ const storeReducer = (state: any = { storeData: [] }, action: any) => {
         case REMOVE_STORES:
             return { ...state, storeData: [] };
         case ADD_STORE:
-            const copy = { ...state };
+            const copy = [...state.storeData];
 
-            copy.storeData.push(action.payload);
+            copy.push(action.payload);
 
-            return { ...state, storeData: copy.storeData };
+            return { ...state, storeData: copy };
         case REMOVE_STORE:
             return { ...state, storeData: state.storeData.filter((store: any) => store.id !== action.payload) };
         case UPDATE_STORE:

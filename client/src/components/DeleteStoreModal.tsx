@@ -13,6 +13,7 @@ export const DeleteStoreModal = ({ hidden, toggle, storeId }: Props) => {
     const dispatch = useDispatch();
     const [form, setForm] = useState({ password: '' });
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setForm((prevState) => {
@@ -22,19 +23,28 @@ export const DeleteStoreModal = ({ hidden, toggle, storeId }: Props) => {
 
     const deleteConfirmed = () => {
         setError('');
+        setIsLoading(true);
 
         if (form.password !== '' && storeId) {
-            deleteStore(storeId, {password: form.password})
-                .then((res) => {
-                    dispatch({ type: REMOVE_STORE, payload: storeId });
+            setTimeout(() => {
+                deleteStore(storeId, { password: form.password })
+                    .then((res) => {
+                        dispatch({ type: REMOVE_STORE, payload: storeId });
 
-                    toggle();
-                })
-                .catch((err) => {
-                    setError(err.response.data.message);
-                });
+                        toggle();
+                    })
+                    .catch((err) => {
+                        setError(err.response.data.message);
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
+            }, 1000);
         } else {
-            setError('Please enter your password');
+            setTimeout(() => {
+                setError('Please enter your password');
+                setIsLoading(false);
+            }, 1000);
         }
     };
 
@@ -45,7 +55,9 @@ export const DeleteStoreModal = ({ hidden, toggle, storeId }: Props) => {
             <div className='relative px-4 flex flex-col justify-center mx-auto w-full max-w-lg h-full'>
                 <div className='relative rounded-lg shadow-xl mb-16 bg-slate-100 dark:bg-slate-900 p-5 flex flex-col space-y-4'>
                     <div className='flex justify-between items-center p-2 pl-5 right-0'>
-                        <h1 className='font-medium text-gray-900 dark:text-white text-xl'>Are you sure you want to delete this store and all it's employees?</h1>
+                        <h1 className='font-medium text-gray-900 dark:text-white text-xl'>
+                            Are you sure you want to delete this store and all it's employees?
+                        </h1>
                         <button
                             onClick={() => {
                                 toggle();
@@ -85,8 +97,20 @@ export const DeleteStoreModal = ({ hidden, toggle, storeId }: Props) => {
                     </div>
                     <p className='text-red-500 text-center text-sm'>{error}</p>
                     <div className='p-2 pl-5'>
-                        <button onClick={deleteConfirmed} className='w-full flex justify-center text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800'>
-                            Delete Store
+                        <button
+                            onClick={deleteConfirmed}
+                            className='w-full flex justify-center text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800'>
+                            {isLoading ? (
+                                <svg className='animate-spin -ml-1 mr-3 h-5 w-5 text-white' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+                                    <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
+                                    <path
+                                        className='opacity-75'
+                                        fill='currentColor'
+                                        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path>
+                                </svg>
+                            ) : (
+                                'Delete Store'
+                            )}
                         </button>
                     </div>
                 </div>
