@@ -168,9 +168,9 @@ export const Store = () => {
                                             viewBox='0 0 20 20'
                                             xmlns='http://www.w3.org/2000/svg'>
                                             <path
-                                                fill-rule='evenodd'
+                                                fillRule='evenodd'
                                                 d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                                                clip-rule='evenodd'></path>
+                                                clipRule='evenodd'></path>
                                         </svg>
                                     </div>
                                     <input
@@ -221,8 +221,8 @@ export const Store = () => {
                                                     height='100%'
                                                     xmlns='http://www.w3.org/2000/svg'
                                                     viewBox='0 0 24 24'
-                                                    fill-rule='evenodd'
-                                                    clip-rule='evenodd'>
+                                                    fillRule='evenodd'
+                                                    clipRule='evenodd'>
                                                     <path d='M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 10.293l5.293-5.293.707.707-5.293 5.293 5.293 5.293-.707.707-5.293-5.293-5.293 5.293-.707-.707 5.293-5.293-5.293-5.293.707-.707 5.293 5.293z' />
                                                 </svg>
                                             </span>
