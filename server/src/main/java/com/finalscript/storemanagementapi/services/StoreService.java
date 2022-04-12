@@ -83,10 +83,12 @@ public class StoreService {
 
         Store store = new Store(storeName, userOptional.get());
 
-        store.setLocation(location);
+        if(location != null) {
+            store.setLocation(location);
+        }
 
         if (currency.length() > 10) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "currency must be less then 10 characters long");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Currency must be less then 10 characters long");
        }
 
         store.setCurrency(currency);
@@ -185,7 +187,7 @@ public class StoreService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store currency cannot be the same");
             }
             if (currency.length() > 10) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "currency must be less then 10 characters long");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Currency must be less then 10 characters long");
             }
 
             storeOptional.get().setCurrency(currency);
