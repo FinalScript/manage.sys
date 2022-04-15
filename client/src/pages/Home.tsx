@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import heroSVG from '../assets/images/undraw_hire.svg';
 import handshakeVideo from '../assets/videos/handshake.mp4';
 import { AuthDataState } from '../types';
 
@@ -23,15 +22,6 @@ const teamData = [
         linkedIn: 'https://www.linkedin.com/in/mohammed-abdulla-b5281b19a/',
         github: 'https://github.com/moe1011',
         img: 'https://avatars.githubusercontent.com/u/77053716?v=4',
-    },
-    {
-        name: 'Bakr Matlab',
-        title: 'Software Developer , Business Analyst',
-        description:
-            'Integrations of features on both front-end and back-end. Translating business needs into requirements and oversees all other business operations.',
-        linkedIn: 'https://ca.linkedin.com/in/bakr-matlab-04a2a0197',
-        github: 'https://github.com/bakrmatlab',
-        img: 'https://avatars.githubusercontent.com/u/58094830?v=4',
     },
 ];
 
@@ -298,7 +288,9 @@ export const Home = () => {
                         <div className='flex flex-wrap justify-center space-x-5 -m-4'>
                             {teamData.map((member) => {
                                 return (
-                                    <div key={member.name} className='p-4 lg:w-1/4 md:w-1/2 rounded-xl hover:bg-gray-200 hover:dark:bg-gray-700 hover:scale-105 hover:shadow-xl transition-all duration-100'>
+                                    <div
+                                        key={member.name}
+                                        className='p-4 lg:w-1/4 md:w-1/2 rounded-xl hover:bg-gray-200 hover:dark:bg-gray-700 hover:scale-105 hover:shadow-xl transition-all duration-100'>
                                         <div className='h-full flex flex-col items-center text-center'>
                                             <img alt='team' className='flex-shrink-0 rounded-lg w-full h-72 object-cover object-center mb-4' src={member.img} />
                                             <div className='w-full flex flex-col items-center justify-between h-72'>
