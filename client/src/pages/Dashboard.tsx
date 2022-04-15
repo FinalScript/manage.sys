@@ -2,34 +2,28 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { DeleteStoreModal } from '../components/DeleteStoreModal';
-import { NewStoreModal } from '../components/NewStoreModal';
-import { UpdateStoreModal } from '../components/UpdateStoreModal';
+import { StoreModal } from '../components/StoreModal';
 import { StoreData, StoreDataState } from '../types';
 import { Transition } from '@headlessui/react';
 
 export const Dashboard = () => {
     const storeData = useSelector((state: StoreDataState) => state.storeReducer.storeData);
     const [sortData, setSortData] = useState<StoreData[]>([]);
-    //const [modalHidden, setModalHidden] = useState({ newStore: true, deleteStore: true, updateStore: true })
-    const [newStoreModalHidden, setNewStoreModalHidden] = useState(true);
+    const [storeModalHidden, setStoreModalHidden] = useState(true);
+    const [storeModalIsNew, setStoreModalIsNew] = useState(true);
     const [deleteStoreModalHidden, setDeleteStoreModalHidden] = useState(true);
-    const [updateStoreModalHidden, setUpdateStoreModalHidden] = useState(true);
     const [storeId, setStoreId] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [sortValue, setSortValue] = useState('');
     const [sortAsc, setSortAsc] = useState(true);
     const navigate = useNavigate();
 
-    const toggleNewStoreModal = () => {
-        setNewStoreModalHidden((prevState) => !prevState);
+    const toggleStoreModal = () => {
+        setStoreModalHidden((prevState) => !prevState);
     };
 
     const toggleDeleteStoreModal = () => {
         setDeleteStoreModalHidden((prevState) => !prevState);
-    };
-
-    const toggleUpdateStoreModal = () => {
-        setUpdateStoreModalHidden((prevState) => !prevState);
     };
 
     const resetSort = () => {
@@ -54,6 +48,14 @@ export const Dashboard = () => {
                 copy.sort((a, b) => (!sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
                 setSortData(copy);
                 break;
+            case 'currency':
+                copy.sort((a, b) => (!sortAsc ? a.currency.localeCompare(b.currency) : b.currency.localeCompare(a.currency)));
+                setSortData(copy);
+                break;
+            case 'location':
+                copy.sort((a, b) => (!sortAsc ? a.location.localeCompare(b.location) : b.location.localeCompare(a.location)));
+                setSortData(copy);
+                break;
             default:
                 break;
         }
@@ -63,15 +65,15 @@ export const Dashboard = () => {
         document.title = 'Dashboard | Manage.sys';
     }, []);
 
-    useEffect(() => { // Adding a store doesnt seem to udpdate the state, updating and deleting do though
+    useEffect(() => {
+        // Adding a store doesnt seem to udpdate the state, updating and deleting do though
         const copy = [...storeData];
         setSortData(copy);
     }, [storeData]);
 
     return (
         <div className='min-h-screen h-full bg-white dark:bg-gray-800 text-white pt-20 pb-20 flex flex-col items-center'>
-            <NewStoreModal hidden={newStoreModalHidden} toggle={toggleNewStoreModal} />
-            <UpdateStoreModal hidden={updateStoreModalHidden} toggle={toggleUpdateStoreModal} storeId={storeId} />
+            <StoreModal hidden={storeModalHidden} toggle={toggleStoreModal} storeId={storeId} isNew={storeModalIsNew} />
             <DeleteStoreModal hidden={deleteStoreModalHidden} toggle={toggleDeleteStoreModal} storeId={storeId} />
             <Transition
                 appear={true}
@@ -88,7 +90,11 @@ export const Dashboard = () => {
                         <div className='flex justify-between'>
                             <h1 className='text-3xl'>My Stores</h1>
                             <button
-                                onClick={toggleNewStoreModal}
+                                disabled={!storeModalHidden}
+                                onClick={() => {
+                                    setStoreModalIsNew(true);
+                                    toggleStoreModal();
+                                }}
                                 className='bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 text-gray-100 p-1 px-2 rounded-lg'>
                                 New Store
                             </button>
@@ -117,7 +123,7 @@ export const Dashboard = () => {
                                         type='text'
                                         id='table-search'
                                         className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                                        placeholder='Search store by id or name'
+                                        placeholder='Search store'
                                         value={searchValue}
                                         onChange={(e) => {
                                             setSearchValue(e.target.value);
@@ -213,6 +219,32 @@ export const Dashboard = () => {
                                                 Name
                                             </th>
 
+                                            <th
+                                                scope='col'
+                                                className='px-6 py-3 select-none cursor-pointer'
+                                                onClick={() => {
+                                                    if (sortValue === 'currency') {
+                                                        setSortAsc((prevState) => !prevState);
+                                                    } else {
+                                                        setSortValue('currency');
+                                                    }
+                                                }}>
+                                                Currency
+                                            </th>
+
+                                            <th
+                                                scope='col'
+                                                className='px-6 py-3 select-none cursor-pointer'
+                                                onClick={() => {
+                                                    if (sortValue === 'location') {
+                                                        setSortAsc((prevState) => !prevState);
+                                                    } else {
+                                                        setSortValue('location');
+                                                    }
+                                                }}>
+                                                Location
+                                            </th>
+
                                             <th scope='col' className='px-6 py-3 select-none cursor-pointer'>
                                                 <span className='sr-only'>Options</span>
                                             </th>
@@ -226,49 +258,39 @@ export const Dashboard = () => {
                                                         !(
                                                             searchValue === '' ||
                                                             store.name.toLowerCase().search(searchValue.toLowerCase()) === 0 ||
-                                                            store.id.toString().toLowerCase().search(searchValue.toLowerCase()) === 0
+                                                            store.id.toString().toLowerCase().search(searchValue.toLowerCase()) === 0 ||
+                                                            store.location.toLowerCase().search(searchValue.toLowerCase()) === 0 ||
+                                                            store.currency.toLowerCase().search(searchValue.toLowerCase()) === 0
                                                         )
                                                     }
                                                     key={store.id}
+                                                    onClick={() => {
+                                                        navigate('store/' + store.id + '/', { state: { store } });
+                                                    }}
                                                     className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
-                                                    {/* <td className='w-4 p-4'>
-                                                    <div className='flex items-center'>
-                                                        <input
-                                                            id='checkbox-table-search-1'
-                                                            type='checkbox'
-                                                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                                                        />
-                                                        <label htmlFor='checkbox-table-search-1' className='sr-only'>
-                                                            checkbox
-                                                        </label>
-                                                    </div>
-                                                </td> */}
                                                     <th
                                                         scope='row'
-                                                        className='px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap cursor-pointer'
-                                                        onClick={() => {
-                                                            navigate('store/' + store.id + '/', { state: { store } });
-                                                        }}>
+                                                        className='px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap cursor-pointer'>
                                                         {store.id}
                                                     </th>
-                                                    <td
-                                                        className='px-6 py-4 text-gray-900 dark:text-white cursor-pointer'
-                                                        onClick={() => {
-                                                            navigate('store/' + store.id + '/', { state: { store } });
-                                                        }}>
-                                                        {store.name}
-                                                    </td>
+                                                    <td className='px-6 py-4 text-gray-900 dark:text-white cursor-pointer'>{store.name}</td>
+                                                    <td className='px-6 py-4 text-gray-900 dark:text-white cursor-pointer'>{store.currency}</td>
+                                                    <td className='px-6 py-4 text-gray-900 dark:text-white cursor-pointer'>{store.location}</td>
+
                                                     <td className='px-6 py-4 text-gray-900 dark:text-white text-right'>
                                                         <button
-                                                            onClick={() => {
-                                                                toggleUpdateStoreModal();
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setStoreModalIsNew(false);
+                                                                toggleStoreModal();
                                                                 setStoreId(store.id);
                                                             }}
                                                             className='font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline'>
                                                             Edit
                                                         </button>
                                                         <button
-                                                            onClick={() => {
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 toggleDeleteStoreModal();
                                                                 setStoreId(store.id);
                                                             }}

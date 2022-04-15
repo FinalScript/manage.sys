@@ -24,15 +24,6 @@ const teamData = [
         github: 'https://github.com/moe1011',
         img: 'https://avatars.githubusercontent.com/u/77053716?v=4',
     },
-    {
-        name: 'Bakr Matlab',
-        title: 'Software Developer , Business Analyst',
-        description:
-            'Integrations of features on both front-end and back-end. Translating business needs into requirements and oversees all other business operations.',
-        linkedIn: 'https://ca.linkedin.com/in/bakr-matlab-04a2a0197',
-        github: 'https://github.com/bakrmatlab',
-        img: 'https://avatars.githubusercontent.com/u/58094830?v=4',
-    },
 ];
 
 export const Home = () => {

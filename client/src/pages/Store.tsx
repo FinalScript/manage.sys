@@ -3,32 +3,28 @@ import { useLocation } from 'react-router-dom';
 import { getEmployees } from '../api';
 import { EmployeeModal } from '../components/EmployeeModal';
 import { DeleteEmployeeModal } from '../components/DeleteEmployeeModal';
-import { UpdateEmployeeModal } from '../components/UpdateEmployeeModal';
 import { EmployeeData, StoreData } from '../types';
 import { Transition } from '@headlessui/react';
+import { currencyToSymbol } from '../utils/CurrencyToSymbol';
 
 export const Store = () => {
     const location: any = useLocation();
     const [store, setStore] = useState<StoreData>();
     const [employeeData, setEmployeeData] = useState<EmployeeData[]>([]);
-    const [employeeModal, setEmployeeModal] = useState(true);
+    const [employeeModalHidden, setEmployeeModalHidden] = useState(true);
+    const [employeeModalIsNew, setEmployeeModalIsNew] = useState(true);
     const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(true);
-    const [updateEmployeeModal, setUpdateEmployeeModal] = useState(true);
     const [employeeId, setEmployeeId] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [sortValue, setSortValue] = useState('');
     const [sortAsc, setSortAsc] = useState(true);
 
     const toggleEmployeeModal = () => {
-        setEmployeeModal((prevState) => !prevState);
+        setEmployeeModalHidden((prevState) => !prevState);
     };
 
     const toggleDeleteEmployeeModal = () => {
         setDeleteEmployeeModal((prevState) => !prevState);
-    };
-
-    const toggleUpdateEmployeeModal = () => {
-        setUpdateEmployeeModal((prevState) => !prevState);
     };
 
     const resetSort = () => {
@@ -118,17 +114,17 @@ export const Store = () => {
 
     return (
         <div className='min-h-screen h-full bg-white dark:bg-gray-800 text-white pt-20 pb-20 flex flex-col items-center'>
-            <EmployeeModal hidden={employeeModal} toggle={toggleEmployeeModal} setEmployeeData={setEmployeeData} storeId={store?.id} />
-            <DeleteEmployeeModal
-                hidden={deleteEmployeeModal}
-                toggle={toggleDeleteEmployeeModal}
+            <EmployeeModal
+                hidden={employeeModalHidden}
+                toggle={toggleEmployeeModal}
                 setEmployeeData={setEmployeeData}
                 storeId={store?.id}
                 employeeId={employeeId}
+                isNew={employeeModalIsNew}
             />
-            <UpdateEmployeeModal
-                hidden={updateEmployeeModal}
-                toggle={toggleUpdateEmployeeModal}
+            <DeleteEmployeeModal
+                hidden={deleteEmployeeModal}
+                toggle={toggleDeleteEmployeeModal}
                 setEmployeeData={setEmployeeData}
                 storeId={store?.id}
                 employeeId={employeeId}
@@ -146,9 +142,17 @@ export const Store = () => {
                 <div className='bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-7 rounded-xl'>
                     <div>
                         <div className='flex justify-between'>
-                            <h1 className='text-3xl'>{store?.name}</h1>
+                            <div className='flex items-center space-x-5'>
+                                <h1 className='text-3xl'>{store?.name}</h1>
+                                <h1 className='text-md font-semibold text-white dark:bg-pink-800 bg-pink-700 rounded-lg px-3 py-0'>{store?.currency}</h1>
+                                <h1 className='text-md font-semibold text-white dark:bg-pink-800 bg-pink-700 rounded-lg px-3 py-0'>{store?.location}</h1>
+                            </div>
                             <button
-                                onClick={toggleEmployeeModal}
+                                hidden={!employeeModalHidden}
+                                onClick={() => {
+                                    setEmployeeModalIsNew(true);
+                                    toggleEmployeeModal();
+                                }}
                                 className='bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 text-gray-100 p-1 px-2 rounded-lg'>
                                 New Employee
                             </button>
@@ -213,7 +217,9 @@ export const Store = () => {
                                                 </span>
                                             </p>
                                         </div>
-                                        <p className='ml-5 bg-gray-300 dark:bg-gray-800 h-full rounded-lg flex items-center px-3 py-2 cursor-pointer' onClick={resetSort}>
+                                        <p
+                                            className='ml-5 bg-gray-300 dark:bg-gray-800 h-full rounded-lg flex items-center px-3 py-2 cursor-pointer'
+                                            onClick={resetSort}>
                                             <span className='h-4 text-red-600'>
                                                 <svg
                                                     fill='currentColor'
@@ -340,7 +346,9 @@ export const Store = () => {
                                                         {employee.id}
                                                     </th>
                                                     <td className='px-6 py-4 text-gray-900 dark:text-white'>{employee.name}</td>
-                                                    <td className='px-6 py-4 text-gray-900 dark:text-white'>{employee.wage}</td>
+                                                    <td className='px-6 py-4 text-gray-900 dark:text-white'>
+                                                        {employee.wage && `${currencyToSymbol(store?.currency)} ${employee.wage} / hr`}
+                                                    </td>
                                                     <td className='px-6 py-4 text-gray-900 dark:text-white'>{employee.status}</td>
                                                     <td className='px-6 py-4 text-gray-900 dark:text-white'>
                                                         {employee.startingDate && new Date(employee.startingDate).toDateString()}
@@ -348,7 +356,8 @@ export const Store = () => {
                                                     <td className='px-6 py-4 text-gray-900 dark:text-white text-right'>
                                                         <button
                                                             onClick={() => {
-                                                                toggleUpdateEmployeeModal();
+                                                                setEmployeeModalIsNew(false);
+                                                                toggleEmployeeModal();
                                                                 setEmployeeId(employee.id);
                                                             }}
                                                             className='font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline'>
