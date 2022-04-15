@@ -70,7 +70,7 @@ public class EmployeeService {
      * @param name    Employee name
      * @return A new employee filled with the given parameters
      */
-    public Employee newEmployee(Long storeId, String name) {
+    public Employee newEmployee(Long storeId, String name, Float wage, String status, String startingDate) {
 
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
@@ -85,9 +85,26 @@ public class EmployeeService {
 //        }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        //        employee.setPassword(encoder.encode(password));
 
         Employee employee = new Employee(name);
-//        employee.setPassword(encoder.encode(password));
+
+        employee.setWage(wage);
+        employee.setStatus(status);
+
+        if (startingDate != null && !startingDate.equals("")) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date;
+
+            try {
+                date = format.parse(startingDate);
+            } catch (ParseException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+
+            employee.setStartingDate(date);
+        }
+
         employee.setStore(storeOptional.get());
 
         return employeeRepository.save(employee);
@@ -124,12 +141,13 @@ public class EmployeeService {
      *
      * @param storeId      ID of store
      * @param employeeId   ID of employee
+     * @param name         name of employee
      * @param wage         wage of employee
      * @param status       status of employee
      * @param startingDate starting date of employee
      * @return Updated employee  with new wage, status and starting date
      */
-    public Employee updateEmployee(Long storeId, Long employeeId, Float wage, String status, String startingDate) {
+    public Employee updateEmployee(Long storeId, Long employeeId, String name, Float wage, String status, String startingDate) {
         Optional<Store> storeOptional = storeRepository.findById(storeId);
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
@@ -146,25 +164,42 @@ public class EmployeeService {
         if (wage != null && wage > 0) {
 
             //Checks if employee wage is equal to the previous employee wage amount
-            if (Objects.equals(employeeOptional.get().getWage(), wage)) {
+            if (Objects.equals(employeeOptional.get()
+                    .getWage(), wage)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wage cannot be the same");
             }
 
-            employeeOptional.get().setWage(wage);
+            employeeOptional.get()
+                    .setWage(wage);
         }
 
         if (status != null && status.length() > 0) {
 
             //Checks if employee status is equal to the previous employee status
-            if (Objects.equals(employeeOptional.get().getStatus(), status)) {
+            if (Objects.equals(employeeOptional.get()
+                    .getStatus(), status)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status cannot be the same");
             }
 
-            employeeOptional.get().setStatus(status);
+            employeeOptional.get()
+                    .setStatus(status);
         }
 
 
-        if (startingDate != null) {
+        if (name != null && name.length() > 0) {
+
+            //Checks if employee name is equal to the previous employee name
+            if (Objects.equals(employeeOptional.get()
+                    .getName(), name)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be the same");
+            }
+
+            employeeOptional.get()
+                    .setName(name);
+        }
+
+
+        if (startingDate != null && !startingDate.equals("")) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
 
@@ -175,11 +210,13 @@ public class EmployeeService {
             }
 
             //Checks if employee Starting Date is equal to the previous employee Starting Date
-            if (Objects.equals(employeeOptional.get().getStartingDate(), date)) {
+            if (Objects.equals(employeeOptional.get()
+                    .getStartingDate(), date)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Starting Date cannot be the same");
             }
 
-            employeeOptional.get().setStartingDate(date);
+            employeeOptional.get()
+                    .setStartingDate(date);
         }
 
         return employeeRepository.save(employeeOptional.get());

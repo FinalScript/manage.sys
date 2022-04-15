@@ -46,12 +46,14 @@ public class StoreController {
 
     /**
      * @param storeName          store name
+     * @param location           location of store
+     * @param currency           currency of the store
      * @param httpServletRequest HTTP request object
      * @return A new store filled with the given parameters
      */
     @PostMapping
-    public Store newStore(@RequestParam String storeName, HttpServletRequest httpServletRequest) {
-        return storeService.newStore((Long) httpServletRequest.getAttribute("adminId"), storeName);
+    public Store newStore(@RequestParam String storeName,  @RequestParam(required = false) String location, @RequestParam String currency, HttpServletRequest httpServletRequest) {
+        return storeService.newStore((Long) httpServletRequest.getAttribute("adminId"), storeName, location, currency);
     }
 
     /**
@@ -68,11 +70,12 @@ public class StoreController {
      * @param httpServletRequest HTTP Request object
      * @param storeId            store id
      * @param storeName          store name
+     * @param currency           store currency
      * @param password           admin password
      * @return Updated store with new store name
      */
     @PatchMapping(path = "{storeId}")
-    public Store updateStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam(required = false) String storeName, @RequestParam String password) {
-        return storeService.updateStore((Long) httpServletRequest.getAttribute("adminId"), storeId, storeName, password);
+    public Store updateStore(HttpServletRequest httpServletRequest, @PathVariable Long storeId, @RequestParam(required = false) String location, @RequestParam(required = false) String currency, @RequestParam(required = false) String storeName, @RequestParam String password) {
+        return storeService.updateStore((Long) httpServletRequest.getAttribute("adminId"), storeId, storeName, password, location, currency);
     }
 }

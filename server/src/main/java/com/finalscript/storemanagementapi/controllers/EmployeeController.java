@@ -5,6 +5,7 @@ import com.finalscript.storemanagementapi.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,8 +50,9 @@ public class EmployeeController {
      * @return A new employee filled with the given parameters
      */
     @PostMapping
-    public Employee newEmployee(@RequestParam String name, @PathVariable Long storeId) {
-        return employeeService.newEmployee(storeId, name);
+    public Employee newEmployee(@RequestParam String name, @RequestParam(required = false) Float wage, @RequestParam(required = false) String status,
+                                @RequestParam(required = false) String startingDate, @PathVariable Long storeId) {
+        return employeeService.newEmployee(storeId, name, wage, status, startingDate);
     }
 
     /**
@@ -65,16 +67,15 @@ public class EmployeeController {
     /**
      * @param employeeId   ID of employee
      * @param storeId      ID of store
+     * @param name         name of employee
      * @param wage         wage of employee
      * @param status       status of employee
      * @param startingDate starting date of employee
      * @return Updated employee  with new wage, status and starting date
      */
     @PatchMapping(path = "{employeeId}")
-    public Employee updateEmployee(@PathVariable Long employeeId, @PathVariable Long storeId,
-                                   @RequestParam(required = false) Float wage,
-                                   @RequestParam(required = false) String status,
-                                   @RequestParam(required = false) String startingDate) {
-        return employeeService.updateEmployee(storeId, employeeId, wage, status, startingDate);
+    public Employee updateEmployee(@PathVariable Long employeeId, @PathVariable Long storeId, @RequestParam(required = false) String name,
+                                   @RequestParam(required = false) Float wage, @RequestParam(required = false) String status, @RequestParam(required = false) String startingDate) {
+        return employeeService.updateEmployee(storeId, employeeId, name, wage, status, startingDate);
     }
 }

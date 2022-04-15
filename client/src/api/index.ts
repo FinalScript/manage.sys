@@ -37,7 +37,9 @@ export const getAuthData = () => {
 };
 
 interface StoreParams {
-    storeName: string;
+    storeName: string | null;
+    location?: string;
+    currency?: string;
 }
 
 export const createNewStore = (params: StoreParams) => {
@@ -69,7 +71,9 @@ export const deleteStore = (storeId: number, params: DeleteStoreParams) => {
 
 interface UpdateStoreParams {
     password: string;
-    storeName: string;
+    storeName: string | null;
+    location?: string;
+    currency?: string;
 }
 
 export const updateStore = (storeId: number, params: UpdateStoreParams) => {
@@ -89,12 +93,16 @@ export const getEmployees = (storeId: number) => {
 
 interface EmployeeParams {
     name: string;
+    wage?: number;
+    status?: string;
+    startingDate?: string;
 }
 
 interface UpdateEmployeeParams {
-    wage: number;
-    status: string;
-    startingDate: string;
+    name?: string;
+    wage?: number;
+    status?: string;
+    startingDate?: string;
 }
 
 export const createNewEmployee = (storeId: number, params: EmployeeParams) => {

@@ -70,9 +70,11 @@ public class StoreService {
      *
      * @param adminId   Value of sent in admin ID
      * @param storeName value of sent in store name
+     * @param location  value of sent in location
+     * @param currency  value of sent in currency
      * @return A new store filled with the given parameters
      */
-    public Store newStore(Long adminId, String storeName) {
+    public Store newStore(Long adminId, String storeName, String location, String currency) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(adminId);
 
         if (userOptional.isEmpty()) {
@@ -80,6 +82,16 @@ public class StoreService {
         }
 
         Store store = new Store(storeName, userOptional.get());
+
+        if(location != null) {
+            store.setLocation(location);
+        }
+
+        if (currency.length() > 10) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Currency must be less then 10 characters long");
+       }
+
+        store.setCurrency(currency);
 
         return storeRepository.save(store);
     }
@@ -123,9 +135,11 @@ public class StoreService {
      * @param storeId   store id
      * @param storeName store name
      * @param password  admin password
+     * @param currency  store currency
+     * @param location  store location
      * @return Updated store with new store name
      */
-    public Store updateStore(Long adminId, Long storeId, String storeName, String password) {
+    public Store updateStore(Long adminId, Long storeId, String storeName, String password, String location, String currency) {
         Optional<AdminUser> userOptional = adminUserRepository.findById(adminId);
         Optional<Store> storeOptional = storeRepository.findById(storeId);
 
@@ -154,6 +168,29 @@ public class StoreService {
             }
 
             storeOptional.get().setName(storeName);
+        }
+
+        //Checks if location isn't empty and sets the new location
+        if (location != null && location.length() > 0) {
+            //Checks if location is equal to the previous location
+            if (Objects.equals(storeOptional.get().getLocation(), location)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store location cannot be the same");
+            }
+
+            storeOptional.get().setLocation(location);
+        }
+
+        //Checks if currency isn't empty and sets the new currency
+        if (currency != null && currency.length() > 0) {
+            //Checks if currency is equal to the previous currency
+            if (Objects.equals(storeOptional.get().getCurrency(), currency)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Store currency cannot be the same");
+            }
+            if (currency.length() > 10) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Currency must be less then 10 characters long");
+            }
+
+            storeOptional.get().setCurrency(currency);
         }
 
         return storeRepository.save(storeOptional.get());
