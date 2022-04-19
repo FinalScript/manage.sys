@@ -6,20 +6,12 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 COPY src ./src
 
-FROM base as test
-CMD ["mvn", "test"]
-
-FROM base as development
-CMD ["mvn", "spring-boot:run"]
-
-FROM base as build
-
 RUN mvn -f ./pom.xml clean package -DskipTests
 
-FROM openjdk:17-alpine as production
+FROM openjdk:17
 
-EXPOSE 80
+EXPOSE 8080
 
-COPY --from=build /app/target/store-management-api-*.jar /app.jar
+COPY --from=base /app/target/store-management-api-*.jar /app.jar
 
-CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--server.port=80"]
+CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
