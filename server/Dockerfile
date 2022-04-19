@@ -18,8 +18,8 @@ RUN mvn -f ./pom.xml clean package -DskipTests
 
 FROM openjdk:17-alpine as production
 
-EXPOSE 8080
+EXPOSE 80
 
 COPY --from=build /app/target/store-management-api-*.jar /app.jar
 
-CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--server.port=80"]

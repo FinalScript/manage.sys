@@ -10,22 +10,22 @@ RUN npm install
 
 COPY . ./
 
-RUN npm install -g serve
+ARG REACT_APP_API_URL
+
+ENV REACT_APP_API_URL $REACT_APP_API_URL
 
 RUN npm run build
 
-# nginx state for serving content
-FROM nginx:1.15
+FROM node:16.10-alpine
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html
-# Copy static assets from builder stage
-COPY --from=base /app/build /usr/share/nginx/html
-COPY --from=base /app/nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-RUN export ${REACT_APP_API_URL}
+COPY --from=base /app/build ./build
+COPY  express/ ./
 
-EXPOSE 80
+RUN npm install
+
+EXPOSE 443
 
 # Containers run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["node", "app"]
