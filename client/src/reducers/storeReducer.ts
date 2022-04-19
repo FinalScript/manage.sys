@@ -20,7 +20,7 @@ const storeReducer = (state: any = { storeData: [] }, action: any) => {
 
             const updateCopy: StoreData[] = [...state.storeData];
 
-            updateCopy[index].name = action.payload.storeName; // Sets the new store name at the store with the given ID
+            updateCopy[index] = action.payload.newData; // Sets the new store name at the store with the given ID
 
             return { ...state, storeData: updateCopy };
         default:

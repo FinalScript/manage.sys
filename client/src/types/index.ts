@@ -19,6 +19,8 @@ export interface StoreData {
     id: number;
     name: string;
     adminUser: number;
+    currency: string;
+    location: string;
 }
 
 export interface StoreReducer {

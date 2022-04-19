@@ -49,6 +49,7 @@ public class StoreTests {
 
         MvcResult storeMvcResult = mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("storeName", "TestStore")
+                        .queryParam("currency", "USD")
                         .header("authorization", token))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -87,5 +88,14 @@ public class StoreTests {
         if (adminUserOptional.isEmpty()) {
             throw new Exception();
         }
+    }
+
+    @Test
+    public void T5_Create_Store_Expect400() throws Exception {
+        mvc.perform(post("/api/v1/store/").contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("storeName", "TestStore")
+                        .header("authorization", token))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 }

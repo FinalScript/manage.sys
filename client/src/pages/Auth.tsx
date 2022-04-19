@@ -85,7 +85,11 @@ export const Auth = () => {
                         </Link>
                     </div>
                 ) : (
-                    <>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+
+                        submitForm();
+                    }}>
                         <h2 className='text-gray-900 text-lg font-medium title-font mb-5 text-center'>{isRegistering ? 'Admin Sign Up' : 'Admin Sign In'}</h2>
                         <div className='relative mb-4'>
                             <label htmlFor='full-name' className='leading-7 text-sm text-gray-600'>
@@ -142,7 +146,7 @@ export const Auth = () => {
                             <p className='text-red-500 text-center text-sm'>{error}</p>
                         </div>
                         <button
-                            className='flex justify-center items-center text-white h-12 bg-pink-500 border-0 py-2 px-8 mt-5 focus:outline-none hover:bg-pink-600 rounded text-lg'
+                            className='flex w-full justify-center items-center text-white h-12 bg-pink-500 border-0 py-2 px-8 mt-5 focus:outline-none hover:bg-pink-600 rounded text-lg'
                             onClick={submitForm}>
                             {isLoading ? (
                                 <svg className='animate-spin -ml-1 mr-3 h-5 w-5 text-white' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
@@ -158,13 +162,13 @@ export const Auth = () => {
                                 'Login'
                             )}
                         </button>
-                        <div className='text-gray-900 pt-5 text-center cursor-pointer select-none' onClick={switchRegistrationMode}>
-                            <p>
+                        <div className='text-gray-900 pt-5 text-center select-none'>
+                            <p className='cursor-pointer' onClick={switchRegistrationMode}>
                                 {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
                                 <span className='text-pink-500 font-semibold'>{isRegistering ? 'Login' : 'Register'}</span>
                             </p>
                         </div>
-                    </>
+                    </form>
                 )}
             </div>
         </div>
