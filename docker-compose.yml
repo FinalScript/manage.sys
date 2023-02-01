@@ -5,21 +5,19 @@ services:
         build:
             context: ./client/
             dockerfile: Dockerfile
+            args:
+                - API_URL=${REACT_APP_API_URL}
         ports:
             - '443:443'
-        depends_on:
-            - restapi
-        environment:
-            - REACT_APP_API_URL=${REACT_APP_API_URL}
         networks:
             - manage.sys-network
     restapi:
-        image: finalscriptcontainers.azurecr.io/manage-sys-api
+        image: finalscriptcontainers.azurecr.io/manage-sys-server
         build:
             context: ./server/
             dockerfile: Dockerfile
-        ports:
-            - '80:8080'
+        depends_on:
+            - client
         environment:
             - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
             - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
@@ -28,5 +26,8 @@ services:
             - JWT_SECRET=${JWT_SECRET}
         networks:
             - manage.sys-network
+
 networks:
     manage.sys-network:
+        internal: true
+        driver: bridge
