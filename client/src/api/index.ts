@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: process.env.REACT_APP_API_URL || "https://manage-sys-api.azurewebsites.net/" });
+const api = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
 interface registerParams {
     username: String;
