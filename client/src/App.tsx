@@ -5,7 +5,7 @@ import { Auth } from './pages/Auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_STORES, AUTH, LOGOUT, REMOVE_STORES } from './constants/actions';
 import { Dashboard } from './pages/Dashboard';
-import { getAuthData, getStores, setBearerToken } from './api/index';
+import { getAuthData, getStores, setApi, setBearerToken } from './api/index';
 import { ProtectedComponent } from './components/ProtectedComponent';
 import { useSafeLocalStorage } from './hooks/useSafeLocalStorage';
 import { AuthDataState } from './types';
@@ -19,6 +19,10 @@ function App() {
     const [token] = useSafeLocalStorage('token', '');
 
     useEffect(() => {
+        if (process.env.REACT_APP_API_URL) {
+            setApi(process.env.REACT_APP_API_URL);
+        }
+
         if (token) {
             setBearerToken(token);
 
@@ -32,7 +36,6 @@ function App() {
         } else {
             dispatch({ type: LOGOUT });
         }
-
     }, []);
 
     useEffect(() => {

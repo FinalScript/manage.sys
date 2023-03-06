@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+let api = axios.create({ baseURL: process.env.REACT_APP_API_URL });
+
+export const setApi = (url: string) => {
+    api.defaults.baseURL = url;
+};
 
 interface registerParams {
     username: String;
