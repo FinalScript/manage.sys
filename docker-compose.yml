@@ -10,9 +10,9 @@ services:
             - '5432:5432'
         volumes:
             - db:/var/lib/postgresql/data
-        networks:
-            - manage.sys-network
+        
     client:
+        restart: always
         depends_on:
             - restapi
         image: manage-sys-client
@@ -22,14 +22,13 @@ services:
             context: ./client/
             dockerfile: Dockerfile
             args:
-                - API_URL=http://localhost:8080/
+                - API_URL=http://192.53.123.78:8080/
         ports:
             - '443:443'
         links:
             - restapi
-        networks:
-            - manage.sys-network
     restapi:
+        restart: always
         image: manage-sys-server
         build:
             context: ./server/
@@ -46,9 +45,6 @@ services:
             - JWT_SECRET=${JWT_SECRET}
         links:
             - db
-        networks:
-            - manage.sys-network
-
 networks:
     manage.sys-network:
         internal: true
